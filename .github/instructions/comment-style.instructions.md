@@ -3,16 +3,16 @@ description: "Use when writing or reviewing inline comments, code annotations, s
 applyTo: "**/*.{html,css,js,ts,vue}"
 ---
 
-# Inline Comment Style Guide
+# Inline comment style guide
 
-## General Formatting
+## General formatting
 
 - Single space after the comment marker (`//`, `#`, `<!--`)
 - Capitalize the first word
 - No trailing punctuation on short inline comments; end full sentences with a period
 - Keep comments brief — use a block comment when continuation is needed
 
-## Language-Specific Syntax
+## Language-specific syntax
 
 **HTML**
 ```html
@@ -51,7 +51,7 @@ applyTo: "**/*.{html,css,js,ts,vue}"
 // === Section Name ===
 ```
 
-## Section Headers
+## Section headers
 
 Pick one delimiter style per file and use it consistently:
 
@@ -65,7 +65,7 @@ Pick one delimiter style per file and use it consistently:
 // === Auth Helpers ===
 ```
 
-## Annotation Tags
+## Annotation tags
 
 Always: uppercase tag → colon → space → description.
 
@@ -76,7 +76,7 @@ Always: uppercase tag → colon → space → description.
 // HACK: Temporary workaround until design tokens are finalized
 ```
 
-## What to Comment
+## What to comment
 
 - Comment **why**, not **what**. Avoid restating what the code visually says.
 - Add a comment when a non-obvious value is used, a workaround is in place, or the intent won't be clear in 6 months.
