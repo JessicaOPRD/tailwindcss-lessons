@@ -1,6 +1,6 @@
-# Copilot Instructions
+# Copilot instructions
 
-## Project Context
+## Project context
 
 This is a **Tailwind CSS v4 learning repository** with two tracks:
 
@@ -11,7 +11,7 @@ Lessons progress through utilities, layers, and brand palette configuration.
 
 ---
 
-## Tech Stack
+## Tech stack
 
 - **Tailwind CSS v4** — utility-first CSS framework
 - **Tailwind CLI** (`@tailwindcss/cli`) — for building CSS from `input.css` files
@@ -20,7 +20,7 @@ Lessons progress through utilities, layers, and brand palette configuration.
 
 ---
 
-## Code Style
+## Code style
 
 ### Comments
 
@@ -38,14 +38,14 @@ Lessons progress through utilities, layers, and brand palette configuration.
 
 ---
 
-## Naming Conventions
+## Naming conventions
 
 <!-- TODO: Add file and folder naming conventions -->
 <!-- TODO: Add CSS custom property naming conventions (e.g., --color-brand-primary) -->
 
 ---
 
-## Tailwind-Specific Guidelines
+## Tailwind-specific guidelines
 
 <!-- TODO: Add preferences around @layer usage (base / components / utilities) -->
 <!-- TODO: Add guidance on when to use @apply vs inline utilities -->
@@ -61,6 +61,6 @@ Lessons progress through utilities, layers, and brand palette configuration.
 
 ---
 
-## What Copilot Should Avoid
+## What Copilot should avoid
 
 <!-- TODO: List patterns to avoid (e.g., inline styles, !important, deprecated utilities) -->

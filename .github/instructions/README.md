@@ -1,4 +1,4 @@
-# Instructions Files
+# Instructions files
 
 This folder contains `.instructions.md` files that provide coding guidelines and
 style rules to AI agents. Each file focuses on a single concern and can be scoped
@@ -11,7 +11,7 @@ to specific file types.
 
 ---
 
-## Frontmatter Reference
+## Frontmatter reference
 
 | Property | Required | Description |
 |---|---|---|
@@ -21,7 +21,7 @@ to specific file types.
 
 ---
 
-## Discovery Modes
+## Discovery modes
 
 | Mode | Setup | Behavior |
 |---|---|---|

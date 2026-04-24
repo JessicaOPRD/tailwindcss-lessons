@@ -1,4 +1,4 @@
-# Prettier + Tailwind CSS — Setup Guide
+# Prettier + Tailwind CSS — setup guide
 
 ## Option 1: Bulk formatter (CLI)
 
