@@ -35,8 +35,8 @@ applyTo: "**/*.{html,css,js,ts,vue}"
  */
 
 /* -------------------------------------------------------------------------- */
-/* SECTION: Components                                                          */
-/* PURPOSE: Structural and reusable UI pieces                                   */
+/* SECTION: Components */
+/* PURPOSE: Structural and reusable UI pieces */
 /* -------------------------------------------------------------------------- */
 ```
 
