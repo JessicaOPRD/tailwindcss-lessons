@@ -1,0 +1,226 @@
+/*
+  CLI Build – 03 Brand Palette
+  ==============================
+  Demonstrates a full multi-shade colour palette defined in @theme,
+  then consumed through semantic aliases and @layer components.
+
+  Concepts covered:
+  • Full-scale palette  — --color-primary-50 … --color-primary-950
+  • Semantic aliases    — --color-brand, --color-accent, etc.
+  • var() inside @theme — one place to change the whole UI's look
+  • @layer components   — components that reference only semantic tokens
+
+  Run from 02-cli-build/:
+    npm run build:palette
+    npm run watch:palette
+*/
+@import "tailwindcss";
+
+@theme {
+  /*
+    HOW @theme NAMESPACES WORK
+    ───────────────────────────
+    Tailwind v4 reads the CSS custom property name to decide which utilities
+    to generate. The convention is:  --{namespace}-{scale}: value
+
+    "color" is a special built-in namespace. Any variable declared as
+    --color-{name} causes Tailwind to generate ALL colour-accepting utilities
+    for that name automatically:
+
+      --color-brand: …  →  bg-brand, text-brand, border-brand,
+                           ring-brand, outline-brand, fill-brand, …
+
+    Other recognised namespaces (for reference):
+      --spacing-*        →  p-*, m-*, gap-*, w-*, h-*, …
+      --font-size-*      →  text-*
+      --border-radius-*  →  rounded-*
+      --shadow-*         →  shadow-*
+
+    A variable named --brand or --my-color-brand would NOT generate
+    any utilities — the prefix must be exactly --color-.
+
+    The generated utility holds a var() reference, not the resolved hex:
+      .bg-brand { background-color: var(--color-brand); }
+    This means overrides via media queries or cascade still work correctly.
+  */
+
+  /* ── Primary palette (violet) ─────────────────────────────────────────── */
+  --color-primary-50: #f5f3ff;
+  --color-primary-100: #ede9fe;
+  --color-primary-200: #ddd6fe;
+  --color-primary-300: #c4b5fd;
+  --color-primary-400: #a78bfa;
+  --color-primary-500: #8b5cf6;
+  --color-primary-600: #7c3aed;
+  --color-primary-700: #6d28d9;
+  --color-primary-800: #5b21b6;
+  --color-primary-900: #4c1d95;
+  --color-primary-950: #2e1065;
+
+  /* ── Accent palette (rose) ────────────────────────────────────────────── */
+  --color-accent-50: #fff1f2;
+  --color-accent-100: #ffe4e6;
+  --color-accent-200: #fecdd3;
+  --color-accent-300: #fda4af;
+  --color-accent-400: #fb7185;
+  --color-accent-500: #f43f5e;
+  --color-accent-600: #e11d48;
+  --color-accent-700: #be123c;
+  --color-accent-800: #9f1239;
+  --color-accent-900: #881337;
+  --color-accent-950: #4c0519;
+
+  /* ── Semantic aliases ─────────────────────────────────────────────────── */
+  /*
+    Map meaningful intent names onto specific palette steps.
+    To re-skin: only these lines need to change — all components follow.
+
+    These are still --color-* variables, so Tailwind generates the full set
+    of utilities for each one (bg-brand, text-brand, border-brand, …).
+
+    The value uses var() to reference a palette step above. This means the
+    resolved chain at runtime is:
+      bg-brand  →  var(--color-brand)
+               →  var(--color-primary-600)
+               →  #7c3aed
+
+    Because it stays as var() in the output CSS (never inlined as a hex),
+    you can override --color-brand on any element or @media block and the
+    change propagates through every component that uses it.
+  */
+  --color-brand: var(--color-primary-600);
+  --color-brand-hover: var(--color-primary-700);
+  --color-brand-active: var(--color-primary-800);
+  --color-brand-subtle: var(--color-primary-50);
+  --color-brand-muted: var(--color-primary-100);
+  --color-brand-border: var(--color-primary-200);
+
+  --color-accent: var(--color-accent-500);
+  --color-accent-hover: var(--color-accent-600);
+  --color-accent-subtle: var(--color-accent-50);
+  --color-accent-muted: var(--color-accent-100);
+  --color-accent-border: var(--color-accent-200);
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+  }
+}
+
+/* ── Components ───────────────────────────────────────────────────────────── */
+@layer components {
+  /* ---- Layout ----------------------------------------------------------- */
+  .site-header {
+    @apply bg-brand text-white shadow-md;
+  }
+  .site-header__inner {
+    @apply mx-auto flex max-w-5xl items-center justify-between px-6 py-4;
+  }
+  .site-header__logo {
+    @apply text-xl font-bold tracking-tight;
+  }
+  .site-header__meta {
+    @apply text-sm opacity-75;
+  }
+
+  .page-main {
+    @apply mx-auto max-w-5xl space-y-12 px-6 py-10;
+  }
+  .site-footer {
+    @apply py-6 text-center text-xs text-gray-400;
+  }
+
+  /* ---- Section headings ------------------------------------------------- */
+  .section-heading {
+    @apply mb-1 text-2xl font-bold;
+  }
+  .section-subheading {
+    @apply mb-5 text-sm text-gray-500;
+  }
+
+  /* ---- Swatch labels ---------------------------------------------------- */
+  .swatch-row {
+    @apply flex overflow-hidden rounded-lg shadow-sm;
+  }
+  .swatch {
+    @apply flex h-14 flex-1 items-end p-1.5;
+  }
+  .swatch__step {
+    @apply font-mono text-[10px] leading-none;
+  }
+
+  /* ---- Buttons ---------------------------------------------------------- */
+  .btn {
+    @apply inline-flex cursor-pointer items-center rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+  .btn--brand {
+    @apply bg-brand hover:bg-brand-hover active:bg-brand-active focus-visible:outline-brand text-white;
+  }
+  .btn--accent {
+    @apply bg-accent hover:bg-accent-hover focus-visible:outline-accent text-white;
+  }
+  .btn--outlined {
+    @apply border-brand text-brand hover:bg-brand focus-visible:outline-brand border-2 hover:text-white;
+  }
+  .btn--ghost {
+    @apply bg-brand-subtle text-brand hover:bg-brand-muted focus-visible:outline-brand;
+  }
+
+  /* ---- Badges ----------------------------------------------------------- */
+  .badge {
+    @apply inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+  .badge--brand {
+    @apply bg-brand-muted text-primary-800;
+  }
+  .badge--accent {
+    @apply bg-accent-muted text-accent-700;
+  }
+  .badge--brand-solid {
+    @apply bg-brand text-white;
+  }
+  .badge--accent-solid {
+    @apply bg-accent text-white;
+  }
+
+  /* ---- Cards ------------------------------------------------------------ */
+  .card {
+    @apply rounded-xl border p-5 shadow-sm;
+  }
+  .card--brand {
+    @apply bg-brand-subtle border-brand-border;
+  }
+  .card--accent {
+    @apply bg-accent-subtle border-accent-border;
+  }
+  .card--white {
+    @apply border-gray-200 bg-white;
+  }
+  .card__title {
+    @apply mb-1 text-base font-semibold;
+  }
+  .card__body {
+    @apply text-sm text-gray-600;
+  }
+
+  /* ---- Alerts ----------------------------------------------------------- */
+  .alert {
+    @apply rounded-lg border-l-4 px-5 py-4 text-sm;
+  }
+  .alert--brand {
+    @apply bg-brand-subtle border-brand text-primary-900;
+  }
+  .alert--accent {
+    @apply bg-accent-subtle border-accent text-accent-900;
+  }
+  .alert__title {
+    @apply mb-0.5 font-semibold;
+  }
+
+  /* ---- Code chip -------------------------------------------------------- */
+  .code-chip {
+    @apply rounded bg-gray-100 px-1.5 py-0.5 font-mono text-xs;
+  }
+}

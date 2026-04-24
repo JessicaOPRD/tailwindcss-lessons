@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind – CDN Demo (with @layer)</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!--
+      APPROACH: move repeated/structural styles into @layer so the HTML
+      carries semantic class names instead of long utility strings.
+
+      Compare the markup below with index.html — same visual output,
+      but each element now has one or two descriptive classes rather
+      than a paragraph of utility tokens.
+
+      Rules of thumb used here:
+        @theme   → design tokens (colours, fonts, spacing)
+        @layer base       → element-level resets / defaults
+        @layer components → multi-property, reusable UI pieces
+        @layer utilities  → single-purpose helpers that Tailwind doesn't ship
+    -->
+    <style type="text/tailwindcss">
+
+      /* ── Design tokens ─────────────────────────────────────── */
+      @theme {
+        --color-brand:      #4f46e5;
+        --color-brand-dark: #3730a3;
+      }
+
+      /* ── Base: element defaults ─────────────────────────────── */
+      @layer base {
+        body {
+          @apply bg-gray-50 text-gray-900 antialiased;
+        }
+      }
+
+      /* ── Components: structural + reusable UI pieces ────────── */
+      @layer components {
+
+        /* ---- Layout ------------------------------------------ */
+        .site-header {
+          @apply bg-brand text-white shadow-md;
+        }
+        .site-header__inner {
+          @apply mx-auto max-w-4xl px-6 py-4 flex items-center justify-between;
+        }
+        .site-header__logo {
+          @apply text-xl font-bold tracking-tight;
+        }
+        .site-header__meta {
+          @apply text-sm opacity-75;
+        }
+
+        .page-main {
+          @apply mx-auto max-w-4xl px-6 py-10 space-y-10;
+        }
+
+        .site-footer {
+          @apply text-center text-xs text-gray-400 py-6;
+        }
+
+        /* ---- Section headings --------------------------------- */
+        .section-heading {
+          @apply text-2xl font-bold mb-4;
+        }
+        .section-note {
+          @apply text-sm text-gray-500 mb-3;
+        }
+
+        /* ---- Typography section ------------------------------- */
+        .prose-body {
+          @apply text-base text-gray-600 leading-relaxed mb-3;
+        }
+        .prose-scale {
+          @apply text-sm text-gray-500;
+        }
+        .prose-highlight {
+          @apply font-semibold text-brand;
+        }
+
+        /* ---- Flex cards (spacing / flexbox section) ----------- */
+        .card-row {
+          @apply flex gap-4 flex-wrap;
+        }
+        .card {
+          @apply rounded-lg p-4 flex-1 min-w-36;
+        }
+        .card--indigo {
+          @apply bg-indigo-100 text-indigo-800;
+        }
+        .card--purple {
+          @apply bg-purple-100 text-purple-800;
+        }
+        .card--sky {
+          @apply bg-sky-100 text-sky-800;
+        }
+        .card__title {
+          @apply font-semibold;
+        }
+        .card__body {
+          @apply text-sm mt-1;
+        }
+
+        /* ---- Buttons ------------------------------------------ */
+        /*
+          Base button — shared shape/spacing/transition.
+          Extend with a modifier class for colour.
+        */
+        .btn {
+          @apply inline-block rounded-lg px-5 py-2.5 text-sm font-semibold
+                 transition-colors duration-150 cursor-pointer;
+        }
+        .btn--primary {
+          @apply bg-brand text-white hover:bg-brand-dark;
+        }
+        .btn--outlined {
+          @apply border border-brand text-brand hover:bg-brand hover:text-white;
+        }
+        .btn--ghost {
+          @apply bg-gray-200 text-gray-700 hover:bg-gray-300 active:scale-95;
+        }
+
+        /* ---- Responsive grid ---------------------------------- */
+        .responsive-grid {
+          @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4;
+        }
+        .grid-box {
+          @apply bg-white border border-gray-200 rounded-lg p-4 shadow-sm;
+        }
+
+        /* ---- Inline code chips -------------------------------- */
+        .code-chip {
+          @apply bg-gray-100 px-1 rounded;
+        }
+        .code-chip--brand {
+          @apply bg-brand/10 text-brand px-1 rounded;
+        }
+        .code-chip--brand-solid {
+          @apply bg-brand text-white px-1 rounded;
+        }
+        .code-chip--brand-outline {
+          @apply border-2 border-brand text-brand px-1 rounded;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- ─── Header ─────────────────────────────────────────────── -->
+    <header class="site-header">
+      <div class="site-header__inner">
+        <span class="site-header__logo">TW Lessons</span>
+        <span class="site-header__meta">CDN version · @layer demo</span>
+      </div>
+    </header>
+
+    <!-- ─── Main content ──────────────────────────────────────── -->
+    <main class="page-main">
+
+      <!-- Typography & colour -->
+      <section>
+        <h2 class="section-heading">Typography &amp; Colour</h2>
+        <p class="prose-body">
+          Tailwind ships a full set of <span class="prose-highlight">utility classes</span>
+          that map directly to CSS properties. There is no pre-built stylesheet —
+          only the classes you <em>actually use</em> are emitted.
+        </p>
+        <p class="prose-scale">
+          Size scale: <span class="text-xs">xs</span> ·
+          <span class="text-sm">sm</span> ·
+          <span class="text-base">base</span> ·
+          <span class="text-lg">lg</span> ·
+          <span class="text-xl">xl</span> ·
+          <span class="text-2xl">2xl</span>
+        </p>
+      </section>
+
+      <!-- Spacing & layout (flexbox) -->
+      <section>
+        <h2 class="section-heading">Spacing &amp; Flexbox</h2>
+        <div class="card-row">
+          <div class="card card--indigo">
+            <p class="card__title">Card A</p>
+            <p class="card__body">p-4 rounded-lg</p>
+          </div>
+          <div class="card card--purple">
+            <p class="card__title">Card B</p>
+            <p class="card__body">flex-1 gap-4</p>
+          </div>
+          <div class="card card--sky">
+            <p class="card__title">Card C</p>
+            <p class="card__body">flex-wrap</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hover & focus variants -->
+      <section>
+        <h2 class="section-heading">State Variants</h2>
+        <p class="section-note">
+          Prefix any utility with <code class="code-chip">hover:</code>,
+          <code class="code-chip">focus:</code>,
+          <code class="code-chip">active:</code> etc.
+        </p>
+        <div class="flex gap-3 flex-wrap">
+          <button class="btn btn--primary">Primary (component)</button>
+          <button class="btn btn--outlined">Outlined</button>
+          <button class="btn btn--ghost">Ghost</button>
+        </div>
+      </section>
+
+      <!-- Responsive prefixes -->
+      <section>
+        <h2 class="section-heading">Responsive Prefixes</h2>
+        <p class="section-note">
+          Resize the window. The grid columns change at breakpoints via
+          <code class="code-chip">sm:</code> /
+          <code class="code-chip">md:</code> /
+          <code class="code-chip">lg:</code>.
+        </p>
+        <div class="responsive-grid">
+          <div class="grid-box">Box 1</div>
+          <div class="grid-box">Box 2</div>
+          <div class="grid-box">Box 3</div>
+          <div class="grid-box">Box 4</div>
+          <div class="grid-box">Box 5</div>
+          <div class="grid-box">Box 6</div>
+        </div>
+      </section>
+
+      <!-- Custom token from @theme above -->
+      <section>
+        <h2 class="section-heading">Custom <code class="text-brand text-xl">@theme</code> Token</h2>
+        <p class="text-sm text-gray-600">
+          The <code class="code-chip">--color-brand</code> token was registered in
+          the <code class="code-chip">&lt;style type="text/tailwindcss"&gt;</code> block above.
+          It is available as <code class="code-chip--brand">text-brand</code>,
+          <code class="code-chip--brand-solid">bg-brand</code>,
+          <code class="code-chip--brand-outline">border-brand</code>, etc.
+        </p>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      Tailwind v4 · CDN (Play CDN) · development only · @layer demo
+    </footer>
+
+  </body>
+</html>

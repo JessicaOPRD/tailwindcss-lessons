@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind – CLI Build Demo</title>
+
+    <!--
+      APPROACH 2a: CLI Build — Utility-first (Tailwind v4)
+      ======================================================
+      Tailwind ran at build time and wrote only the CSS classes used in this
+      file to dist/output.css. Open that file to see exactly what was emitted.
+
+      Styling strategy: most visual decisions live as utility classes directly
+      in the markup. Only the two button classes are abstracted into @layer
+      (see input.css). Compare with ../02-layers/index.html to see the other
+      end of the spectrum.
+
+      Run from 02-cli-build/:  npm run build:utilities
+    -->
+    <link rel="stylesheet" href="dist/output.css" />
+  </head>
+
+  <body class="bg-gray-50 text-gray-900 antialiased">
+    <!-- ─── Header ─────────────────────────────────────────────── -->
+    <header class="bg-brand text-white shadow-md">
+      <div
+        class="mx-auto flex max-w-4xl items-center justify-between px-6 py-4"
+      >
+        <span class="text-xl font-bold tracking-tight">TW Lessons</span>
+        <span class="text-sm opacity-75">CLI build · utility-first</span>
+      </div>
+    </header>
+
+    <!-- ─── Main content ──────────────────────────────────────── -->
+    <main class="mx-auto max-w-4xl space-y-10 px-6 py-10">
+      <!-- Typography & colour -->
+      <section>
+        <h2 class="mb-4 text-2xl font-bold">Typography &amp; Colour</h2>
+        <p class="mb-3 text-base leading-relaxed text-gray-600">
+          Tailwind ships a full set of
+          <span class="text-brand font-semibold">utility classes</span> that map
+          directly to CSS properties. There is no pre-built stylesheet — only
+          the classes you <em>actually use</em> are emitted.
+        </p>
+        <p class="text-sm text-gray-500">
+          Size scale: <span class="text-xs">xs</span> ·
+          <span class="text-sm">sm</span> ·
+          <span class="text-base">base</span> ·
+          <span class="text-lg">lg</span> · <span class="text-xl">xl</span> ·
+          <span class="text-2xl">2xl</span>
+        </p>
+      </section>
+
+      <!-- Spacing & layout (flexbox) -->
+      <section>
+        <h2 class="mb-4 text-2xl font-bold">Spacing &amp; Flexbox</h2>
+        <div class="flex flex-wrap gap-4">
+          <div
+            class="min-w-36 flex-1 rounded-lg bg-indigo-100 p-4 text-indigo-800"
+          >
+            <p class="font-semibold">Card A</p>
+            <p class="mt-1 text-sm">p-4 rounded-lg</p>
+          </div>
+          <div
+            class="min-w-36 flex-1 rounded-lg bg-purple-100 p-4 text-purple-800"
+          >
+            <p class="font-semibold">Card B</p>
+            <p class="mt-1 text-sm">flex-1 gap-4</p>
+          </div>
+          <div class="min-w-36 flex-1 rounded-lg bg-sky-100 p-4 text-sky-800">
+            <p class="font-semibold">Card C</p>
+            <p class="mt-1 text-sm">flex-wrap</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hover & focus variants -->
+      <section>
+        <h2 class="mb-4 text-2xl font-bold">State Variants</h2>
+        <p class="mb-3 text-sm text-gray-500">
+          Prefix any utility with
+          <code class="rounded bg-gray-100 px-1">hover:</code>,
+          <code class="rounded bg-gray-100 px-1">focus:</code>,
+          <code class="rounded bg-gray-100 px-1">active:</code> etc.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <button class="btn-primary">Primary (component)</button>
+          <button
+            class="btn border-brand text-brand hover:bg-brand border hover:text-white"
+          >
+            Outlined
+          </button>
+          <button
+            class="btn bg-gray-200 text-gray-700 hover:bg-gray-300 active:scale-95"
+          >
+            Ghost
+          </button>
+        </div>
+      </section>
+
+      <!-- Responsive prefixes -->
+      <section>
+        <h2 class="mb-4 text-2xl font-bold">Responsive Prefixes</h2>
+        <p class="mb-3 text-sm text-gray-500">
+          Resize the window. The grid columns change at breakpoints via
+          <code class="rounded bg-gray-100 px-1">sm:</code> /
+          <code class="rounded bg-gray-100 px-1">md:</code> /
+          <code class="rounded bg-gray-100 px-1">lg:</code>.
+        </p>
+        <!-- 1 col → 2 col (sm) → 3 col (lg) -->
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+            Box 1
+          </div>
+          <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+            Box 2
+          </div>
+          <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+            Box 3
+          </div>
+          <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+            Box 4
+          </div>
+          <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+            Box 5
+          </div>
+          <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+            Box 6
+          </div>
+        </div>
+      </section>
+
+      <!-- Custom token from @theme in input.css -->
+      <section>
+        <h2 class="mb-4 text-2xl font-bold">
+          Custom <code class="text-brand text-xl">@theme</code> Token
+        </h2>
+        <p class="text-sm text-gray-600">
+          The <code class="rounded bg-gray-100 px-1">--color-brand</code> token
+          was registered in
+          <code class="rounded bg-gray-100 px-1">input.css</code> and baked into
+          <code class="rounded bg-gray-100 px-1">dist/output.css</code> at build
+          time. Open that file to see what Tailwind emitted.
+        </p>
+      </section>
+
+      <!-- Build output callout -->
+      <section class="rounded-lg border border-amber-200 bg-amber-50 p-5">
+        <h2 class="mb-2 text-lg font-semibold text-amber-800">
+          Inspect the build output
+        </h2>
+        <p class="text-sm text-amber-700">
+          Open <code class="rounded bg-amber-100 px-1">dist/output.css</code> —
+          it contains only the CSS for the classes used in this HTML file. Add a
+          new class here (e.g.
+          <code class="rounded bg-amber-100 px-1">text-rose-600</code>) and run
+          <code class="rounded bg-amber-100 px-1">npm run build:utilities</code>
+          again to see it appear.
+        </p>
+      </section>
+    </main>
+
+    <footer class="py-6 text-center text-xs text-gray-400">
+      Tailwind v4 · CLI build · utility-first · run
+      <code>npm run build:utilities</code> to compile
+    </footer>
+  </body>
+</html>

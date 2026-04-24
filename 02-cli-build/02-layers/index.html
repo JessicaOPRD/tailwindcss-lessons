@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind – CLI Build Demo (@layer)</title>
+
+    <!--
+      APPROACH 2b: CLI Build — @layer components (Tailwind v4)
+      ==========================================================
+      Same visual output as ../01-utilities/index.html, but all structural and
+      visual styles have been moved into @layer blocks in input.css.
+
+      Styling strategy: the HTML carries only semantic class names. Open
+      input.css alongside this file to trace what each class actually does.
+
+      Run from 02-cli-build/:  npm run build:layers
+    -->
+    <link rel="stylesheet" href="dist/output.css" />
+  </head>
+
+  <body>
+    <!-- ─── Header ─────────────────────────────────────────────── -->
+    <header class="site-header">
+      <div class="site-header__inner">
+        <span class="site-header__logo">TW Lessons</span>
+        <span class="site-header__meta">CLI build · @layer</span>
+      </div>
+    </header>
+
+    <!-- ─── Main content ──────────────────────────────────────── -->
+    <main class="page-main">
+      <!-- Typography & colour -->
+      <section>
+        <h2 class="section-heading">Typography &amp; Colour</h2>
+        <p class="prose-body">
+          Tailwind ships a full set of
+          <span class="prose-highlight">utility classes</span> that map directly
+          to CSS properties. There is no pre-built stylesheet — only the classes
+          you <em>actually use</em> are emitted.
+        </p>
+        <p class="prose-scale">
+          Size scale: <span class="text-xs">xs</span> ·
+          <span class="text-sm">sm</span> ·
+          <span class="text-base">base</span> ·
+          <span class="text-lg">lg</span> · <span class="text-xl">xl</span> ·
+          <span class="text-2xl">2xl</span>
+        </p>
+      </section>
+
+      <!-- Spacing & layout (flexbox) -->
+      <section>
+        <h2 class="section-heading">Spacing &amp; Flexbox</h2>
+        <div class="card-row">
+          <div class="card card--indigo">
+            <p class="card__title">Card A</p>
+            <p class="card__body">p-4 rounded-lg</p>
+          </div>
+          <div class="card card--purple">
+            <p class="card__title">Card B</p>
+            <p class="card__body">flex-1 gap-4</p>
+          </div>
+          <div class="card card--sky">
+            <p class="card__title">Card C</p>
+            <p class="card__body">flex-wrap</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hover & focus variants -->
+      <section>
+        <h2 class="section-heading">State Variants</h2>
+        <p class="section-note">
+          Prefix any utility with <code class="code-chip">hover:</code>,
+          <code class="code-chip">focus:</code>,
+          <code class="code-chip">active:</code> etc.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <button class="btn btn--primary">Primary (component)</button>
+          <button class="btn btn--outlined">Outlined</button>
+          <button class="btn btn--ghost">Ghost</button>
+        </div>
+      </section>
+
+      <!-- Responsive prefixes -->
+      <section>
+        <h2 class="section-heading">Responsive Prefixes</h2>
+        <p class="section-note">
+          Resize the window. The grid columns change at breakpoints via
+          <code class="code-chip">sm:</code> /
+          <code class="code-chip">md:</code> /
+          <code class="code-chip">lg:</code>.
+        </p>
+        <div class="responsive-grid">
+          <div class="grid-box">Box 1</div>
+          <div class="grid-box">Box 2</div>
+          <div class="grid-box">Box 3</div>
+          <div class="grid-box">Box 4</div>
+          <div class="grid-box">Box 5</div>
+          <div class="grid-box">Box 6</div>
+        </div>
+      </section>
+
+      <!-- Custom token from @theme in input.css -->
+      <section>
+        <h2 class="section-heading">
+          Custom <code class="text-brand text-xl">@theme</code> Token
+        </h2>
+        <p class="text-sm text-gray-600">
+          The <code class="code-chip">--color-brand</code> token was registered
+          in <code class="code-chip">input.css</code> and baked into
+          <code class="code-chip">dist/output.css</code> at build time. It is
+          available as <code class="code-chip--brand">text-brand</code>,
+          <code class="code-chip--brand-solid">bg-brand</code>,
+          <code class="code-chip--brand-outline">border-brand</code>, etc.
+        </p>
+      </section>
+
+      <!-- Build output callout -->
+      <section class="callout callout--amber">
+        <h2 class="callout__heading">Inspect the build output</h2>
+        <p class="callout__body">
+          Open <code class="code-chip">dist/output.css</code> — it contains only
+          the CSS for the classes used in this HTML file. Add a new class here
+          (e.g. <code class="code-chip">text-rose-600</code>) and run
+          <code class="code-chip">npm run build:layers</code> again to see it
+          appear.
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      Tailwind v4 · CLI build · @layer · run
+      <code>npm run build:layers</code> to compile
+    </footer>
+  </body>
+</html>

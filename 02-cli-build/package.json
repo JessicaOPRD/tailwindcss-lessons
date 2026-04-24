@@ -1,0 +1,21 @@
+{
+  "name": "tailwind-cli-build",
+  "version": "1.0.0",
+  "description": "Tailwind v4 CLI build demo",
+  "scripts": {
+    "build": "npm run build:utilities && npm run build:layers && npm run build:palette",
+    "build:utilities": "tailwindcss -i 01-utilities/input.css -o 01-utilities/dist/output.css",
+    "build:layers": "tailwindcss -i 02-layers/input.css -o 02-layers/dist/output.css",
+    "build:palette": "tailwindcss -i 03-brand-palette/input.css -o 03-brand-palette/dist/output.css",
+    "watch:utilities": "tailwindcss -i 01-utilities/input.css -o 01-utilities/dist/output.css --watch",
+    "watch:layers": "tailwindcss -i 02-layers/input.css -o 02-layers/dist/output.css --watch",
+    "watch:palette": "tailwindcss -i 03-brand-palette/input.css -o 03-brand-palette/dist/output.css --watch",
+    "format": "prettier --write \"**/*.html\" \"**/*.css\""
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-tailwindcss": "^0.0.0-insiders.f7d2598",
+    "tailwindcss": "^4.0.0"
+  }
+}

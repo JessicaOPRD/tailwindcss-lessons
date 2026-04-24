@@ -1,0 +1,10 @@
+{
+  "name": "tailwindcss-lessons",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "serve . --listen 5500"
+  },
+  "devDependencies": {
+    "serve": "^14.0.0"
+  }
+}

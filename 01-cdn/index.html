@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind – CDN Demo</title>
+
+    <!--
+      APPROACH 1: Play CDN (Tailwind v4)
+      ===================================
+      No build step needed. The browser script scans your HTML at runtime,
+      generates only the CSS you're using, and injects it into the page.
+
+      ⚠️  Development/learning ONLY — not suitable for production.
+          (Adds ~30 kB of runtime JS + generates CSS client-side on every load.)
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!--
+      You can still write your own CSS using Tailwind features by adding
+      type="text/tailwindcss" to a <style> block. The CDN script picks it up.
+    -->
+    <style type="text/tailwindcss">
+      /* @theme lets you register custom design tokens that become utility classes */
+      @theme {
+        --color-brand: #4f46e5;    /* → text-brand, bg-brand, border-brand … */
+        --color-brand-dark: #3730a3;
+      }
+
+      /* @layer components lets you compose reusable class bundles */
+      @layer components {
+        .btn {
+          @apply inline-block rounded-lg px-5 py-2.5 text-sm font-semibold
+                 transition-colors duration-150 cursor-pointer;
+        }
+        .btn-primary {
+          @apply inline-block rounded-lg px-5 py-2.5 text-sm font-semibold
+                 transition-colors duration-150 cursor-pointer
+                 bg-brand text-white hover:bg-brand-dark;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-50 text-gray-900 antialiased">
+
+    <!-- ─── Header ─────────────────────────────────────────────── -->
+    <header class="bg-brand text-white shadow-md">
+      <div class="mx-auto max-w-4xl px-6 py-4 flex items-center justify-between">
+        <span class="text-xl font-bold tracking-tight">TW Lessons</span>
+        <span class="text-sm opacity-75">CDN version</span>
+      </div>
+    </header>
+
+    <!-- ─── Main content ──────────────────────────────────────── -->
+    <main class="mx-auto max-w-4xl px-6 py-10 space-y-10">
+
+      <!-- Typography & colour -->
+      <section>
+        <h2 class="text-2xl font-bold mb-4">Typography &amp; Colour</h2>
+        <p class="text-base text-gray-600 leading-relaxed mb-3">
+          Tailwind ships a full set of <span class="font-semibold text-brand">utility classes</span>
+          that map directly to CSS properties. There is no pre-built stylesheet —
+          only the classes you <em>actually use</em> are emitted.
+        </p>
+        <p class="text-sm text-gray-500">
+          Size scale: <span class="text-xs">xs</span> ·
+          <span class="text-sm">sm</span> ·
+          <span class="text-base">base</span> ·
+          <span class="text-lg">lg</span> ·
+          <span class="text-xl">xl</span> ·
+          <span class="text-2xl">2xl</span>
+        </p>
+      </section>
+
+      <!-- Spacing & layout (flexbox) -->
+      <section>
+        <h2 class="text-2xl font-bold mb-4">Spacing &amp; Flexbox</h2>
+        <div class="flex gap-4 flex-wrap">
+          <div class="bg-indigo-100 text-indigo-800 rounded-lg p-4 flex-1 min-w-36">
+            <p class="font-semibold">Card A</p>
+            <p class="text-sm mt-1">p-4 rounded-lg</p>
+          </div>
+          <div class="bg-purple-100 text-purple-800 rounded-lg p-4 flex-1 min-w-36">
+            <p class="font-semibold">Card B</p>
+            <p class="text-sm mt-1">flex-1 gap-4</p>
+          </div>
+          <div class="bg-sky-100 text-sky-800 rounded-lg p-4 flex-1 min-w-36">
+            <p class="font-semibold">Card C</p>
+            <p class="text-sm mt-1">flex-wrap</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hover & focus variants -->
+      <section>
+        <h2 class="text-2xl font-bold mb-4">State Variants</h2>
+        <p class="text-sm text-gray-500 mb-3">
+          Prefix any utility with <code class="bg-gray-100 px-1 rounded">hover:</code>,
+          <code class="bg-gray-100 px-1 rounded">focus:</code>,
+          <code class="bg-gray-100 px-1 rounded">active:</code> etc.
+        </p>
+        <div class="flex gap-3 flex-wrap">
+          <button class="btn-primary">Primary (component)</button>
+          <button
+            class="btn border border-brand text-brand hover:bg-brand hover:text-white"
+          >Outlined</button>
+          <button
+            class="btn bg-gray-200 text-gray-700 hover:bg-gray-300 active:scale-95"
+          >Ghost</button>
+        </div>
+      </section>
+
+      <!-- Responsive prefixes -->
+      <section>
+        <h2 class="text-2xl font-bold mb-4">Responsive Prefixes</h2>
+        <p class="text-sm text-gray-500 mb-3">
+          Resize the window. The grid columns change at breakpoints via
+          <code class="bg-gray-100 px-1 rounded">sm:</code> /
+          <code class="bg-gray-100 px-1 rounded">md:</code> /
+          <code class="bg-gray-100 px-1 rounded">lg:</code>.
+        </p>
+        <!-- 1 col → 2 col (sm) → 3 col (lg) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">Box 1</div>
+          <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">Box 2</div>
+          <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">Box 3</div>
+          <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">Box 4</div>
+          <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">Box 5</div>
+          <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">Box 6</div>
+        </div>
+      </section>
+
+      <!-- Custom token from @theme above -->
+      <section>
+        <h2 class="text-2xl font-bold mb-4">Custom <code class="text-brand text-xl">@theme</code> Token</h2>
+        <p class="text-sm text-gray-600">
+          The <code class="bg-gray-100 px-1 rounded">--color-brand</code> token was registered in
+          the <code class="bg-gray-100 px-1 rounded">&lt;style type="text/tailwindcss"&gt;</code> block above.
+          It is available as <code class="bg-brand/10 text-brand px-1 rounded">text-brand</code>,
+          <code class="bg-brand text-white px-1 rounded">bg-brand</code>,
+          <code class="border-2 border-brand px-1 rounded text-brand">border-brand</code>, etc.
+        </p>
+      </section>
+
+    </main>
+
+    <footer class="text-center text-xs text-gray-400 py-6">
+      Tailwind v4 · CDN (Play CDN) · development only
+    </footer>
+
+  </body>
+</html>

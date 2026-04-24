@@ -1,0 +1,36 @@
+/*
+  CLI Build – 01 Utilities
+  =========================
+  This file intentionally contains only the minimum @layer blocks needed to
+  support the two reusable button classes referenced in index.html.
+
+  Everything else — layout, colour, spacing, typography — is expressed as
+  utility classes directly in the HTML markup.
+
+  Compare index.html here with ../02-layers/index.html to see what the HTML
+  looks like when more responsibility shifts into @layer.
+
+  Run from 02-cli-build/:
+    npm run build:utilities
+    npm run watch:utilities
+*/
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #4f46e5;
+  --color-brand-dark: #3730a3;
+}
+
+/*
+  The only two things in @layer here are the button classes.
+  They appear on every button and combine too many properties to repeat
+  inline each time — everything else stays as raw utilities in the HTML.
+*/
+@layer components {
+  .btn {
+    @apply inline-block cursor-pointer rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors duration-150;
+  }
+  .btn-primary {
+    @apply bg-brand hover:bg-brand-dark inline-block cursor-pointer rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-150;
+  }
+}
