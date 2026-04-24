@@ -7,12 +7,15 @@
 
     <!--
       APPROACH 1: Play CDN (Tailwind v4)
-
-      No build step needed. The browser script scans your HTML at runtime,
+      ====================================
+      No build step needed. The browser script scans HTML at runtime,
       generates only the CSS you're using, and injects it into the page.
+      Development and learning only — not suitable for production.
 
-      ⚠️  Development/learning ONLY — not suitable for production.
-          (Adds ~30 kB of runtime JS + generates CSS client-side on every load.)
+      Key ideas:
+      1. Runtime generation — CDN script scans HTML and injects CSS client-side
+      2. No build step — open the file directly in a browser; nothing to compile
+      3. ~30 kB overhead — adds runtime JS on every load; avoid in production
     -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
@@ -55,7 +58,7 @@
     <!-- Main content -->
     <main class="mx-auto max-w-4xl px-6 py-10 space-y-10">
 
-      <!-- Typography & colour -->
+      <!-- Typography & color -->
       <section>
         <h2 class="text-2xl font-bold mb-4">Typography &amp; Colour</h2>
         <p class="text-base text-gray-600 leading-relaxed mb-3">

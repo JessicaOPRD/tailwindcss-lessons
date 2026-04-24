@@ -35,7 +35,8 @@ applyTo: "**/*.{html,css,js,ts,vue}"
  */
 
 /* -------------------------------------------------------------------------- */
-/* Section name
+/* SECTION: Components                                                          */
+/* PURPOSE: Structural and reusable UI pieces                                   */
 /* -------------------------------------------------------------------------- */
 ```
 
@@ -48,7 +49,8 @@ applyTo: "**/*.{html,css,js,ts,vue}"
 /** JSDoc for exported functions and public types */
 
 // -----------------------------------------------------------------------------
-// Section name
+// SECTION: Components
+// PURPOSE: Structural and reusable UI pieces
 // -----------------------------------------------------------------------------
 ```
 
@@ -56,28 +58,29 @@ applyTo: "**/*.{html,css,js,ts,vue}"
 
 - Banner lines are fixed, copyable strings — never fill to a target width; fill-to-width patterns are fragile to maintain
 - Top banner line is 80 characters, matching Prettier's default `printWidth`
-- Label line has no trailing padding or closing token
+- Use labeled tags: `SECTION:` for top-level groups, `PURPOSE:` for a one-line description on the following line
+- For nested groups, use `SUBSECTION:` with its own `PURPOSE:` line — no banner lines
 
 ```css
 /* -------------------------------------------------------------------------- */
-/* Layout
+/* SECTION: Components */
+/* PURPOSE: Structural and reusable UI pieces */
 /* -------------------------------------------------------------------------- */
+
+
+/* SUBSECTION: Buttons */
+/* PURPOSE: Button variants, states, and shared behavior */
 ```
 
 ```js
 // -----------------------------------------------------------------------------
-// Utilities
+// SECTION: Components
+// PURPOSE: Structural and reusable UI pieces
 // -----------------------------------------------------------------------------
-```
 
-For groups nested inside a section, use a sub-header. The symmetric `---` tokens are a fixed, copyable string — no length calculation needed:
 
-```css
-/* --- Buttons --- */
-```
-
-```js
-// --- Utilities ---
+// SUBSECTION: Buttons
+// PURPOSE: Button variants, states, and shared behavior
 ```
 
 ## Annotation tags

@@ -21,7 +21,8 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Base: element-level defaults
+/* SECTION: Base */
+/* PURPOSE: Element-level defaults */
 /* -------------------------------------------------------------------------- */
 @layer base {
   body {
@@ -30,10 +31,12 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Components: structural + reusable UI pieces
+/* SECTION: Components */
+/* PURPOSE: Structural and reusable UI pieces */
 /* -------------------------------------------------------------------------- */
 @layer components {
-  /* --- Layout --- */
+  /* SUBSECTION: Layout */
+  /* PURPOSE: Site-level structural containers */
   .site-header {
     @apply bg-brand text-white shadow-md;
   }
@@ -55,7 +58,8 @@
     @apply py-6 text-center text-xs text-gray-400;
   }
 
-  /* --- Section headings --- */
+  /* SUBSECTION: Section headings */
+  /* PURPOSE: Heading and note typographic helpers */
   .section-heading {
     @apply mb-4 text-2xl font-bold;
   }
@@ -63,7 +67,8 @@
     @apply mb-3 text-sm text-gray-500;
   }
 
-  /* --- Typography section --- */
+  /* SUBSECTION: Typography */
+  /* PURPOSE: Body text and prose styling */
   .prose-body {
     @apply mb-3 text-base leading-relaxed text-gray-600;
   }
@@ -74,7 +79,8 @@
     @apply text-brand font-semibold;
   }
 
-  /* --- Flex cards (spacing / flexbox section) --- */
+  /* SUBSECTION: Flex cards */
+  /* PURPOSE: Flexible card layout for the spacing and flexbox demo */
   .card-row {
     @apply flex flex-wrap gap-4;
   }
@@ -97,7 +103,8 @@
     @apply mt-1 text-sm;
   }
 
-  /* --- Buttons --- */
+  /* SUBSECTION: Buttons */
+  /* PURPOSE: Button variants, states, and shared behavior */
   /*
     Base button — shared shape/spacing/transition.
     Pair with a modifier (.btn--primary, .btn--outlined, .btn--ghost)
@@ -116,7 +123,8 @@
     @apply bg-gray-200 text-gray-700 hover:bg-gray-300 active:scale-95;
   }
 
-  /* --- Responsive grid --- */
+  /* SUBSECTION: Responsive grid */
+  /* PURPOSE: Multi-column grid for the responsive prefixes demo */
   .responsive-grid {
     @apply grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3;
   }
@@ -124,7 +132,8 @@
     @apply rounded-lg border border-gray-200 bg-white p-4 shadow-sm;
   }
 
-  /* --- Inline code chips --- */
+  /* SUBSECTION: Inline code chips */
+  /* PURPOSE: Inline code styling with optional brand variants */
   .code-chip {
     @apply rounded bg-gray-100 px-1;
   }
@@ -138,7 +147,8 @@
     @apply border-brand text-brand rounded border-2 px-1;
   }
 
-  /* --- Build callout box --- */
+  /* SUBSECTION: Build callout */
+  /* PURPOSE: Callout box for build-step notes and warnings */
   .callout {
     @apply rounded-lg p-5;
   }

@@ -8,23 +8,21 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <!--
-      APPROACH: move repeated/structural styles into @layer so the HTML
-      carries semantic class names instead of long utility strings.
+      APPROACH 1b: Play CDN — @layer demo (Tailwind v4)
+      ==================================================
+      Same visual output as index.html, but styles are moved into @layer blocks.
+      The HTML carries semantic class names instead of long utility strings.
 
-      Compare the markup below with index.html — same visual output,
-      but each element now has one or two descriptive classes rather
-      than a paragraph of utility tokens.
-
-      Rules of thumb used here:
-        @theme   → design tokens (colours, fonts, spacing)
-        @layer base       → element-level resets / defaults
-        @layer components → multi-property, reusable UI pieces
-        @layer utilities  → single-purpose helpers that Tailwind doesn't ship
+      Key ideas:
+      1. @theme            — design tokens (colors, fonts, spacing)
+      2. @layer base       — element-level resets and defaults
+      3. @layer components — multi-property, reusable UI pieces
     -->
     <style type="text/tailwindcss">
 
       /* -------------------------------------------------------------------------- */
-      /* Design tokens
+      /* SECTION: Design tokens */
+      /* PURPOSE: Brand color variables */
       /* -------------------------------------------------------------------------- */
       @theme {
         --color-brand:      #4f46e5;
@@ -32,7 +30,8 @@
       }
 
       /* -------------------------------------------------------------------------- */
-      /* Base: element defaults
+      /* SECTION: Base */
+      /* PURPOSE: Element-level defaults */
       /* -------------------------------------------------------------------------- */
       @layer base {
         body {
@@ -41,11 +40,13 @@
       }
 
       /* -------------------------------------------------------------------------- */
-      /* Components: structural + reusable UI pieces
+      /* SECTION: Components */
+      /* PURPOSE: Structural and reusable UI pieces */
       /* -------------------------------------------------------------------------- */
       @layer components {
 
-        /* --- Layout --- */
+        /* SUBSECTION: Layout */
+        /* PURPOSE: Site-level structural containers */
         .site-header {
           @apply bg-brand text-white shadow-md;
         }
@@ -67,7 +68,8 @@
           @apply text-center text-xs text-gray-400 py-6;
         }
 
-        /* --- Section headings --- */
+        /* SUBSECTION: Section headings */
+        /* PURPOSE: Heading and note typographic helpers */
         .section-heading {
           @apply text-2xl font-bold mb-4;
         }
@@ -75,7 +77,8 @@
           @apply text-sm text-gray-500 mb-3;
         }
 
-        /* --- Typography section --- */
+        /* SUBSECTION: Typography */
+        /* PURPOSE: Body text and prose styling */
         .prose-body {
           @apply text-base text-gray-600 leading-relaxed mb-3;
         }
@@ -86,7 +89,8 @@
           @apply font-semibold text-brand;
         }
 
-        /* --- Flex cards (spacing / flexbox section) --- */
+        /* SUBSECTION: Flex cards */
+        /* PURPOSE: Flexible card layout for the spacing and flexbox demo */
         .card-row {
           @apply flex gap-4 flex-wrap;
         }
@@ -109,10 +113,11 @@
           @apply text-sm mt-1;
         }
 
-        /* --- Buttons --- */
+        /* SUBSECTION: Buttons */
+        /* PURPOSE: Button variants, states, and shared behavior */
         /*
           Base button — shared shape/spacing/transition.
-          Extend with a modifier class for colour.
+          Extend with a modifier class for color.
         */
         .btn {
           @apply inline-block rounded-lg px-5 py-2.5 text-sm font-semibold
@@ -128,7 +133,8 @@
           @apply bg-gray-200 text-gray-700 hover:bg-gray-300 active:scale-95;
         }
 
-        /* --- Responsive grid --- */
+        /* SUBSECTION: Responsive grid */
+        /* PURPOSE: Multi-column grid for the responsive prefixes demo */
         .responsive-grid {
           @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4;
         }
@@ -136,7 +142,8 @@
           @apply bg-white border border-gray-200 rounded-lg p-4 shadow-sm;
         }
 
-        /* --- Inline code chips --- */
+        /* SUBSECTION: Inline code chips */
+        /* PURPOSE: Inline code styling with optional brand variants */
         .code-chip {
           @apply bg-gray-100 px-1 rounded;
         }
@@ -166,7 +173,7 @@
     <!-- Main content -->
     <main class="page-main">
 
-      <!-- Typography & colour -->
+      <!-- Typography & color -->
       <section>
         <h2 class="section-heading">Typography &amp; Colour</h2>
         <p class="prose-body">

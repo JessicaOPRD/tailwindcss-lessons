@@ -44,7 +44,8 @@
     This means overrides via media queries or cascade still work correctly.
   */
 
-  /* --- Primary palette (violet) --- */
+  /* SUBSECTION: Primary palette (violet) */
+  /* PURPOSE: Full 11-step violet scale for brand use */
   --color-primary-50: #f5f3ff;
   --color-primary-100: #ede9fe;
   --color-primary-200: #ddd6fe;
@@ -57,7 +58,8 @@
   --color-primary-900: #4c1d95;
   --color-primary-950: #2e1065;
 
-  /* --- Accent palette (rose) --- */
+  /* SUBSECTION: Accent palette (rose) */
+  /* PURPOSE: Full 11-step rose scale for accent use */
   --color-accent-50: #fff1f2;
   --color-accent-100: #ffe4e6;
   --color-accent-200: #fecdd3;
@@ -70,7 +72,8 @@
   --color-accent-900: #881337;
   --color-accent-950: #4c0519;
 
-  /* --- Semantic aliases --- */
+  /* SUBSECTION: Semantic aliases */
+  /* PURPOSE: Intent-named tokens that map onto specific palette steps */
   /*
     Map meaningful intent names onto specific palette steps.
     To re-skin: only these lines need to change — all components follow.
@@ -103,7 +106,8 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Base
+/* SECTION: Base */
+/* PURPOSE: Element-level defaults */
 /* -------------------------------------------------------------------------- */
 @layer base {
   body {
@@ -112,10 +116,12 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Components
+/* SECTION: Components */
+/* PURPOSE: Structural and reusable UI pieces */
 /* -------------------------------------------------------------------------- */
 @layer components {
-  /* --- Layout --- */
+  /* SUBSECTION: Layout */
+  /* PURPOSE: Site-level structural containers */
   .site-header {
     @apply bg-brand text-white shadow-md;
   }
@@ -136,7 +142,8 @@
     @apply py-6 text-center text-xs text-gray-400;
   }
 
-  /* --- Section headings --- */
+  /* SUBSECTION: Section headings */
+  /* PURPOSE: Heading and subtitle typographic helpers */
   .section-heading {
     @apply mb-1 text-2xl font-bold;
   }
@@ -144,7 +151,8 @@
     @apply mb-5 text-sm text-gray-500;
   }
 
-  /* --- Swatch labels --- */
+  /* SUBSECTION: Swatch labels */
+  /* PURPOSE: Color swatch grid for the palette demo */
   .swatch-row {
     @apply flex overflow-hidden rounded-lg shadow-sm;
   }
@@ -155,7 +163,8 @@
     @apply font-mono text-[10px] leading-none;
   }
 
-  /* --- Buttons --- */
+  /* SUBSECTION: Buttons */
+  /* PURPOSE: Button variants using semantic color tokens */
   .btn {
     @apply inline-flex cursor-pointer items-center rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2;
   }
@@ -172,7 +181,8 @@
     @apply bg-brand-subtle text-brand hover:bg-brand-muted focus-visible:outline-brand;
   }
 
-  /* --- Badges --- */
+  /* SUBSECTION: Badges */
+  /* PURPOSE: Pill-shaped labels in brand and accent variants */
   .badge {
     @apply inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold;
   }
@@ -189,7 +199,8 @@
     @apply bg-accent text-white;
   }
 
-  /* --- Cards --- */
+  /* SUBSECTION: Cards */
+  /* PURPOSE: Content cards with brand and accent surface styles */
   .card {
     @apply rounded-xl border p-5 shadow-sm;
   }
@@ -209,7 +220,8 @@
     @apply text-sm text-gray-600;
   }
 
-  /* --- Alerts --- */
+  /* SUBSECTION: Alerts */
+  /* PURPOSE: Inline alert messages with brand and accent themes */
   .alert {
     @apply rounded-lg border-l-4 px-5 py-4 text-sm;
   }
@@ -223,7 +235,8 @@
     @apply mb-0.5 font-semibold;
   }
 
-  /* --- Code chip --- */
+  /* SUBSECTION: Code chip */
+  /* PURPOSE: Inline code styling for demo snippets */
   .code-chip {
     @apply rounded bg-gray-100 px-1.5 py-0.5 font-mono text-xs;
   }
