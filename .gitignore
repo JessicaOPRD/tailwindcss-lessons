@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Tailwind CLI build output
+02-cli-build/**/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
