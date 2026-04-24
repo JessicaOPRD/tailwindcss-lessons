@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind – Theme Overrides</title>
+
+    <!--
+      APPROACH 4: CLI Build — Theme Overrides (@theme with overrides)
+      ================================================================
+      Demonstrates replacing Tailwind's built-in default tokens using @theme.
+      Three categories of override are covered:
+
+      1. Spacing multiplier — --spacing shifts the whole numeric scale at once
+      2. Border radius scale — --radius-* makes every rounded-* token larger
+      3. Color step override — --color-blue-500 replaces one default shade
+
+      Key rule:
+        @theme EXTENDS the default theme and REPLACES any token whose name
+        you redeclare. The rest of the built-in defaults remain unchanged.
+
+      Run from 02-cli-build/:  npm run build:overrides
+    -->
+    <link rel="stylesheet" href="dist/output.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner flex items-center justify-between">
+        <span class="site-header__logo">TW Lessons</span>
+        <span class="site-header__meta">CLI build · theme overrides</span>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <!-- Spacing multiplier -->
+      <section>
+        <h2 class="section-heading">Spacing multiplier</h2>
+        <p class="section-subheading">
+          <code class="code-chip">--spacing: 0.3125rem</code> (5&thinsp;px)
+          replaces the default <code class="code-chip">0.25rem</code>
+          (4&thinsp;px). Every <code class="code-chip">w-*</code>,
+          <code class="code-chip">p-*</code>, <code class="code-chip">m-*</code
+          >, and <code class="code-chip">gap-*</code> utility is derived from
+          this single multiplier via
+          <code class="code-chip">calc(var(--spacing) * n)</code>.
+        </p>
+
+        <!-- Visual ruler — bar width set by w-* utilities -->
+        <div class="scale-ruler flex flex-col gap-3">
+          <div class="scale-ruler__row flex items-center gap-4">
+            <div class="scale-ruler__bar w-1 bg-violet-500"></div>
+            <div class="scale-ruler__label flex items-baseline gap-2">
+              <code class="code-chip">w-1</code>
+              <span class="scale-ruler__math">= 5 px</span>
+              <span class="scale-ruler__note">default: 4 px</span>
+            </div>
+          </div>
+
+          <div class="scale-ruler__row flex items-center gap-4">
+            <div class="scale-ruler__bar w-2 bg-violet-500"></div>
+            <div class="scale-ruler__label flex items-baseline gap-2">
+              <code class="code-chip">w-2</code>
+              <span class="scale-ruler__math">= 10 px</span>
+              <span class="scale-ruler__note">default: 8 px</span>
+            </div>
+          </div>
+
+          <div class="scale-ruler__row flex items-center gap-4">
+            <div class="scale-ruler__bar w-4 bg-violet-500"></div>
+            <div class="scale-ruler__label flex items-baseline gap-2">
+              <code class="code-chip">w-4</code>
+              <span class="scale-ruler__math">= 20 px</span>
+              <span class="scale-ruler__note">default: 16 px</span>
+            </div>
+          </div>
+
+          <div class="scale-ruler__row flex items-center gap-4">
+            <div class="scale-ruler__bar w-8 bg-violet-500"></div>
+            <div class="scale-ruler__label flex items-baseline gap-2">
+              <code class="code-chip">w-8</code>
+              <span class="scale-ruler__math">= 40 px</span>
+              <span class="scale-ruler__note">default: 32 px</span>
+            </div>
+          </div>
+
+          <div class="scale-ruler__row flex items-center gap-4">
+            <div class="scale-ruler__bar w-16 bg-violet-500"></div>
+            <div class="scale-ruler__label flex items-baseline gap-2">
+              <code class="code-chip">w-16</code>
+              <span class="scale-ruler__math">= 80 px</span>
+              <span class="scale-ruler__note">default: 64 px</span>
+            </div>
+          </div>
+
+          <div class="scale-ruler__row flex items-center gap-4">
+            <div class="scale-ruler__bar w-32 bg-violet-500"></div>
+            <div class="scale-ruler__label flex items-baseline gap-2">
+              <code class="code-chip">w-32</code>
+              <span class="scale-ruler__math">= 160 px</span>
+              <span class="scale-ruler__note">default: 128 px</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout-note mt-6">
+          <strong>Recommended when:</strong> your design system or Figma file is
+          built on a non-4&thinsp;px grid (e.g. 5&thinsp;px or 8&thinsp;px).
+          Aligning the multiplier once removes the mental conversion on every
+          spacing value. Avoid in existing projects — it is a breaking change
+          for every component already using spacing utilities.
+        </div>
+      </section>
+
+      <!-- Border radius scale -->
+      <section>
+        <h2 class="section-heading">Border radius scale</h2>
+        <p class="section-subheading">
+          Overriding the <code class="code-chip">--radius-*</code> tokens shifts
+          every <code class="code-chip">rounded-*</code> utility globally —
+          change the scale once and every component using it updates
+          automatically.
+        </p>
+
+        <div class="radius-grid flex flex-wrap gap-4">
+          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-sm">
+            <code class="code-chip">rounded-sm</code>
+            <span class="radius-swatch__value">4 px</span>
+            <span class="radius-swatch__default">default: 2 px</span>
+          </div>
+
+          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-md">
+            <code class="code-chip">rounded-md</code>
+            <span class="radius-swatch__value">8 px</span>
+            <span class="radius-swatch__default">default: 6 px</span>
+          </div>
+
+          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-lg">
+            <code class="code-chip">rounded-lg</code>
+            <span class="radius-swatch__value">12 px</span>
+            <span class="radius-swatch__default">default: 8 px</span>
+          </div>
+
+          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-xl">
+            <code class="code-chip">rounded-xl</code>
+            <span class="radius-swatch__value">20 px</span>
+            <span class="radius-swatch__default">default: 12 px</span>
+          </div>
+
+          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-2xl">
+            <code class="code-chip">rounded-2xl</code>
+            <span class="radius-swatch__value">32 px</span>
+            <span class="radius-swatch__default">default: 16 px</span>
+          </div>
+
+          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-3xl">
+            <code class="code-chip">rounded-3xl</code>
+            <span class="radius-swatch__value">24 px</span>
+            <span class="radius-swatch__default">unchanged</span>
+          </div>
+
+          <!--
+            rounded-full uses a hardcoded 9999px value internally and has
+            no corresponding --radius-* token, so it cannot be overridden
+            through @theme.
+          -->
+          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-full">
+            <code class="code-chip">rounded-full</code>
+            <span class="radius-swatch__value">9999 px</span>
+            <span class="radius-swatch__default">hardcoded, not a token</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Color step override -->
+      <section>
+        <h2 class="section-heading">Color step override</h2>
+        <p class="section-subheading">
+          <code class="code-chip">--color-blue-500</code> is replaced with a
+          sky-toned value. All neighbouring blue steps remain at their Tailwind
+          defaults — note the visual discontinuity at the overridden step.
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-200">
+            <span class="color-step__label text-blue-900">blue-200</span>
+            <span class="color-step__flag">default</span>
+          </div>
+
+          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-300">
+            <span class="color-step__label text-blue-900">blue-300</span>
+            <span class="color-step__flag">default</span>
+          </div>
+
+          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-400">
+            <span class="color-step__label text-white">blue-400</span>
+            <span class="color-step__flag">default</span>
+          </div>
+
+          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-500">
+            <span class="color-step__label text-white">blue-500</span>
+            <span class="color-step__flag color-step__flag--overridden"
+              >overridden</span
+            >
+          </div>
+
+          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-600">
+            <span class="color-step__label text-white">blue-600</span>
+            <span class="color-step__flag">default</span>
+          </div>
+
+          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-700">
+            <span class="color-step__label text-white">blue-700</span>
+            <span class="color-step__flag">default</span>
+          </div>
+
+          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-900">
+            <span class="color-step__label text-blue-100">blue-900</span>
+            <span class="color-step__flag">default</span>
+          </div>
+        </div>
+
+        <div class="callout-note mt-6">
+          <strong>Raw step override vs. semantic alias.</strong> Overriding
+          <code class="code-chip">--color-blue-500</code> replaces it everywhere
+          — including third-party components you don't control. The visual gap
+          between blue-400 and blue-500 above illustrates the inconsistency this
+          can introduce. For brand customisation, prefer semantic aliases
+          (lesson 03): declare
+          <code class="code-chip">--color-brand: var(--color-blue-500)</code>
+          and reference only
+          <code class="code-chip">bg-brand</code> in your components.
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      Tailwind CSS v4 · CLI Build · 04 Theme Overrides
+    </footer>
+  </body>
+</html>

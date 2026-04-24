@@ -7,6 +7,26 @@ applyTo: "**/*.{html,css,js,ts,vue}"
 
 ## Utility classes
 
+### Layout utilities — always inline
+
+Flex, grid, gap, and alignment utilities describe **visible structure**. Always apply them as utility classes directly on the element in markup, never inside `@apply`:
+
+```html
+<!-- Correct: layout intent is visible in the HTML -->
+<div class="flex items-center gap-4">
+
+<!-- Avoid: hides structure behind a class name -->
+<div class="my-row">  <!-- .my-row { @apply flex items-center gap-4 } -->
+```
+
+Utilities in this category include (but are not limited to):
+
+- **Display:** `flex`, `grid`, `inline-flex`, `block`, `hidden`
+- **Direction / wrap:** `flex-col`, `flex-row`, `flex-wrap`
+- **Alignment:** `items-*`, `justify-*`, `self-*`, `place-*`
+- **Gap:** `gap-*`, `gap-x-*`, `gap-y-*`
+- **Grid structure:** `grid-cols-*`, `col-span-*`, `row-span-*`
+
 <!-- TODO: Add guidance on preferred shorthand utilities (e.g., p-4 over px-4 py-4 when sides are equal) -->
 <!-- TODO: Clarify when to extract repeated class groups vs leaving them inline -->
 <!-- TODO: Note any utilities that are off-limits (e.g., avoid arbitrary values unless necessary) -->
@@ -50,7 +70,7 @@ Use `@apply` when:
 Avoid `@apply` when:
 
 - The style is applied in only one place — inline utilities are easier to read and trace.
-- It hides layout structure that should be visible in the markup (e.g., grid or flex relationships).
+- It hides layout structure that should be visible in the markup. **Never use `@apply` for layout utilities** (`flex`, `grid`, `gap-*`, `items-*`, `justify-*`, `grid-cols-*`, etc.) — these belong in the HTML so that the structural intent is immediately readable.
 - It substitutes for a Vue (or other framework) component — if a pattern recurs across files, extract a component instead.
 - It starts to form a new utility system — that rebuilds the bespoke CSS layer Tailwind is designed to replace.
 
