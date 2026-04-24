@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind – Dark Mode</title>
+
+    <!--
+      APPROACH 5: CLI Build — Dark Mode (@variant dark + semantic tokens)
+      =====================================================================
+      Demonstrates two complementary strategies for light/dark theming:
+
+      1. Inline dark: utilities  — prefix any utility with dark: to apply it
+                                   in dark mode; each changing property is
+                                   listed directly in the markup
+      2. Semantic CSS tokens     — define light/dark values in :root and .dark
+                                   in CSS; components use var(--color-*) and
+                                   need no dark: prefix at all
+
+      Key rule:
+        @variant dark (.dark &) in input.css makes the dark: variant respond
+        to a .dark class on any ancestor instead of the OS media query.
+        The toggle button below adds/removes that class on <html>.
+
+      Run from 02-cli-build/:  npm run build:dark-mode
+    -->
+    <link rel="stylesheet" href="dist/output.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner flex items-center justify-between">
+        <span class="site-header__logo">TW Lessons</span>
+        <div class="flex items-center gap-4">
+          <span class="site-header__meta">CLI build · dark mode</span>
+          <button class="theme-toggle" id="theme-toggle">Dark mode</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <!-- Inline dark: utilities -->
+      <section>
+        <h2 class="section-heading">Inline dark: utilities</h2>
+        <p class="section-subheading">
+          Prefix any Tailwind utility with
+          <code class="code-chip">dark:</code> to apply it when dark mode is
+          active. Because
+          <code class="code-chip">@variant dark (.dark &amp;)</code> is declared
+          in <code class="code-chip">input.css</code>, the
+          <code class="code-chip">.dark</code> class on
+          <code class="code-chip">&lt;html&gt;</code> controls the switch — not
+          the OS setting.
+        </p>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <!-- Background -->
+          <div class="utility-card">
+            <p class="utility-card__label">Surface</p>
+            <p class="utility-card__value">
+              <code class="code-chip">bg-white</code>
+            </p>
+            <p class="utility-card__value">
+              <code class="code-chip">dark:bg-gray-800</code>
+            </p>
+            <p class="utility-card__caption">
+              The card background itself demonstrates this — white in light
+              mode, gray-800 in dark mode.
+            </p>
+          </div>
+
+          <!-- Text color -->
+          <div class="utility-card">
+            <p class="utility-card__label">Foreground</p>
+            <p class="utility-card__value">
+              <code class="code-chip">text-gray-900</code>
+            </p>
+            <p class="utility-card__value">
+              <code class="code-chip">dark:text-gray-100</code>
+            </p>
+            <p class="utility-card__caption">
+              Text color inverts to maintain sufficient contrast against the
+              dark surface.
+            </p>
+          </div>
+
+          <!-- Border -->
+          <div class="utility-card">
+            <p class="utility-card__label">Border</p>
+            <p class="utility-card__value">
+              <code class="code-chip">border-gray-200</code>
+            </p>
+            <p class="utility-card__value">
+              <code class="code-chip">dark:border-gray-700</code>
+            </p>
+            <p class="utility-card__caption">
+              A lighter border value keeps the card edge visible against a dark
+              background without adding visual noise.
+            </p>
+          </div>
+
+          <!-- Combined inline example -->
+          <div class="utility-card">
+            <p class="utility-card__label">Combined</p>
+            <p class="utility-card__caption">
+              A real component needs all three overrides. Each property that
+              changes requires its own
+              <code class="code-chip">dark:</code> prefix — there is no
+              shorthand.
+            </p>
+            <!--
+              This inner badge uses inline dark: utilities directly, not a
+              component class — showing the pattern in raw markup form.
+            -->
+            <div
+              class="mt-4 rounded-md border border-violet-200 bg-violet-50 px-3 py-2 text-sm text-violet-800 dark:border-violet-800 dark:bg-violet-950 dark:text-violet-200"
+            >
+              Inline dark: on every property
+            </div>
+          </div>
+        </div>
+
+        <div class="callout-note mt-6">
+          <strong>When to use:</strong> inline
+          <code class="code-chip">dark:</code> utilities work well for one-off
+          elements or when dark mode behavior should be immediately visible in
+          the markup. The tradeoff is verbosity — every changing property on
+          every element must carry its own override.
+        </div>
+      </section>
+
+      <!-- Semantic color tokens -->
+      <section>
+        <h2 class="section-heading">Semantic color tokens</h2>
+        <p class="section-subheading">
+          Declare light-mode values on
+          <code class="code-chip">:root</code> and override them inside
+          <code class="code-chip">.dark</code> in
+          <code class="code-chip">@layer base</code>. Components reference
+          <code class="code-chip">var(--color-*)</code> throughout — when the
+          class toggles, every token updates and no component needs a
+          <code class="code-chip">dark:</code> utility.
+        </p>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <!-- Surface token -->
+          <div class="token-card">
+            <p class="token-card__label">Surface</p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-surface-raised</code>
+            </p>
+            <p class="token-card__caption">
+              Light: <code class="code-chip">#f9fafb</code> (gray-50)<br />
+              Dark: <code class="code-chip">#1f2937</code> (gray-800)
+            </p>
+          </div>
+
+          <!-- Text primary token -->
+          <div class="token-card">
+            <p class="token-card__label">Text primary</p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-text-primary</code>
+            </p>
+            <p class="token-card__caption">
+              Light: <code class="code-chip">#111827</code> (gray-900)<br />
+              Dark: <code class="code-chip">#f9fafb</code> (gray-50)
+            </p>
+          </div>
+
+          <!-- Text secondary token -->
+          <div class="token-card">
+            <p class="token-card__label">Text secondary</p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-text-secondary</code>
+            </p>
+            <p class="token-card__caption">
+              Light: <code class="code-chip">#6b7280</code> (gray-500)<br />
+              Dark: <code class="code-chip">#d1d5db</code> (gray-300)
+            </p>
+          </div>
+
+          <!-- Border token -->
+          <div class="token-card">
+            <p class="token-card__label">Border</p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-border</code>
+            </p>
+            <p class="token-card__caption">
+              Light: <code class="code-chip">#e5e7eb</code> (gray-200)<br />
+              Dark: <code class="code-chip">#374151</code> (gray-700)
+            </p>
+          </div>
+        </div>
+
+        <div class="callout-note mt-6">
+          <strong>When to use:</strong> semantic tokens scale well when many
+          components share the same color decisions. Adding a third mode (e.g.
+          high-contrast) requires only a new
+          <code class="code-chip">.high-contrast { --color-* }</code> override
+          block — every component that uses
+          <code class="code-chip">var(--color-*)</code> inherits it
+          automatically.
+        </div>
+      </section>
+
+      <!-- Approach comparison -->
+      <section>
+        <h2 class="section-heading">Choosing an approach</h2>
+        <div class="callout-compare">
+          <strong>Inline dark: utilities</strong> — best for one-off overrides
+          or when the mode-specific values differ significantly from your token
+          set. Dark mode intent is readable in the markup, but each property
+          needs its own prefix and the repetition grows with component count.
+          <br /><br />
+          <strong>Semantic CSS tokens</strong> — best when the same color
+          decisions are shared across many components. Component classes stay
+          clean, theming is centralized in
+          <code class="code-chip">@layer base</code>, and future modes are
+          additive.
+          <br /><br />
+          Both approaches can coexist — use semantic tokens for structural
+          components and inline
+          <code class="code-chip">dark:</code> utilities for context-specific
+          exceptions.
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">Tailwind CSS v4 — lesson 05 · dark mode</footer>
+
+    <script>
+      /* Toggle .dark on <html> and update the button label accordingly */
+      const html = document.documentElement;
+      const btn = document.getElementById("theme-toggle");
+
+      btn.addEventListener("click", () => {
+        const isDark = html.classList.toggle("dark");
+        btn.textContent = isDark ? "Light mode" : "Dark mode";
+      });
+    </script>
+  </body>
+</html>
