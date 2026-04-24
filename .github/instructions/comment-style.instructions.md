@@ -37,7 +37,9 @@ applyTo: "**/*.{html,css,js,ts,vue}"
  * One space after the leading asterisk.
  */
 
-/* === Section Name === */
+/* -------------------------------------------------------------------------- */
+/* Section name
+/* -------------------------------------------------------------------------- */
 ```
 
 **JS / TS / Vue `<script>`**
@@ -48,21 +50,37 @@ applyTo: "**/*.{html,css,js,ts,vue}"
 
 /** JSDoc for exported functions and public types */
 
-// === Section Name ===
+// -----------------------------------------------------------------------------
+// Section name
+// -----------------------------------------------------------------------------
 ```
 
 ## Section headers
 
-Pick one delimiter style per file and use it consistently:
+The banner lines are fixed, copyable strings — never fill the label line with trailing dashes or spaces to reach a target width. Fill-to-width patterns are hard to maintain (every label edit requires recounting) and fragile to automate.
+
+The top banner line is 80 characters, matching Prettier's default `printWidth`. The label line has no trailing padding or closing token.
 
 ```css
-/* === Layout === */
-/* === Typography === */
+/* -------------------------------------------------------------------------- */
+/* Layout
+/* -------------------------------------------------------------------------- */
 ```
 
 ```js
-// === Utilities ===
-// === Auth Helpers ===
+// -----------------------------------------------------------------------------
+// Utilities
+// -----------------------------------------------------------------------------
+```
+
+For groups nested inside a section, use a sub-header. The symmetric `---` tokens are a fixed, copyable string — no length calculation needed:
+
+```css
+/* --- Buttons --- */
+```
+
+```js
+// --- Utilities ---
 ```
 
 ## Annotation tags

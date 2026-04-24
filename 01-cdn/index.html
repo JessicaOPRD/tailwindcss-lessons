@@ -7,7 +7,7 @@
 
     <!--
       APPROACH 1: Play CDN (Tailwind v4)
-      ===================================
+
       No build step needed. The browser script scans your HTML at runtime,
       generates only the CSS you're using, and injects it into the page.
 
@@ -21,13 +21,13 @@
       type="text/tailwindcss" to a <style> block. The CDN script picks it up.
     -->
     <style type="text/tailwindcss">
-      /* @theme lets you register custom design tokens that become utility classes */
+      /* Custom design tokens — generates bg-brand, text-brand, border-brand, etc. */
       @theme {
         --color-brand: #4f46e5;    /* → text-brand, bg-brand, border-brand … */
         --color-brand-dark: #3730a3;
       }
 
-      /* @layer components lets you compose reusable class bundles */
+      /* Reusable class bundles to avoid repeating long utility strings */
       @layer components {
         .btn {
           @apply inline-block rounded-lg px-5 py-2.5 text-sm font-semibold
@@ -44,7 +44,7 @@
 
   <body class="bg-gray-50 text-gray-900 antialiased">
 
-    <!-- ─── Header ─────────────────────────────────────────────── -->
+    <!-- Header -->
     <header class="bg-brand text-white shadow-md">
       <div class="mx-auto max-w-4xl px-6 py-4 flex items-center justify-between">
         <span class="text-xl font-bold tracking-tight">TW Lessons</span>
@@ -52,7 +52,7 @@
       </div>
     </header>
 
-    <!-- ─── Main content ──────────────────────────────────────── -->
+    <!-- Main content -->
     <main class="mx-auto max-w-4xl px-6 py-10 space-y-10">
 
       <!-- Typography & colour -->

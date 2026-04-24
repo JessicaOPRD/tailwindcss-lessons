@@ -27,7 +27,7 @@ Lessons progress through utilities, layers, and brand palette configuration.
 - One space after the comment marker; capitalize the first word
 - Comment **why**, not what — avoid restating what the code visually says
 - Annotation tags: `/* TODO: */`, `/* FIXME: */`, `/* NOTE: */` — uppercase, colon, space
-- Section headers: `/* === Section Name === */`
+- Section headers: 80-character banner, sentence case label — CSS uses `/* --- */` style, JS uses `// ---` style
 
 > Detailed syntax rules live in `.github/instructions/comment-style.instructions.md` (VS Code only).
 

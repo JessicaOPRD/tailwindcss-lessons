@@ -1,4 +1,4 @@
-/*
+﻿/*
   CLI Build – 03 Brand Palette
   ==============================
   Demonstrates a full multi-shade colour palette defined in @theme,
@@ -44,7 +44,7 @@
     This means overrides via media queries or cascade still work correctly.
   */
 
-  /* ── Primary palette (violet) ─────────────────────────────────────────── */
+  /* --- Primary palette (violet) --- */
   --color-primary-50: #f5f3ff;
   --color-primary-100: #ede9fe;
   --color-primary-200: #ddd6fe;
@@ -57,7 +57,7 @@
   --color-primary-900: #4c1d95;
   --color-primary-950: #2e1065;
 
-  /* ── Accent palette (rose) ────────────────────────────────────────────── */
+  /* --- Accent palette (rose) --- */
   --color-accent-50: #fff1f2;
   --color-accent-100: #ffe4e6;
   --color-accent-200: #fecdd3;
@@ -70,7 +70,7 @@
   --color-accent-900: #881337;
   --color-accent-950: #4c0519;
 
-  /* ── Semantic aliases ─────────────────────────────────────────────────── */
+  /* --- Semantic aliases --- */
   /*
     Map meaningful intent names onto specific palette steps.
     To re-skin: only these lines need to change — all components follow.
@@ -102,16 +102,20 @@
   --color-accent-border: var(--color-accent-200);
 }
 
-/* ── Base ─────────────────────────────────────────────────────────────────── */
+/* -------------------------------------------------------------------------- */
+/* Base
+/* -------------------------------------------------------------------------- */
 @layer base {
   body {
     @apply bg-gray-50 text-gray-900 antialiased;
   }
 }
 
-/* ── Components ───────────────────────────────────────────────────────────── */
+/* -------------------------------------------------------------------------- */
+/* Components
+/* -------------------------------------------------------------------------- */
 @layer components {
-  /* ---- Layout ----------------------------------------------------------- */
+  /* --- Layout --- */
   .site-header {
     @apply bg-brand text-white shadow-md;
   }
@@ -132,7 +136,7 @@
     @apply py-6 text-center text-xs text-gray-400;
   }
 
-  /* ---- Section headings ------------------------------------------------- */
+  /* --- Section headings --- */
   .section-heading {
     @apply mb-1 text-2xl font-bold;
   }
@@ -140,7 +144,7 @@
     @apply mb-5 text-sm text-gray-500;
   }
 
-  /* ---- Swatch labels ---------------------------------------------------- */
+  /* --- Swatch labels --- */
   .swatch-row {
     @apply flex overflow-hidden rounded-lg shadow-sm;
   }
@@ -151,7 +155,7 @@
     @apply font-mono text-[10px] leading-none;
   }
 
-  /* ---- Buttons ---------------------------------------------------------- */
+  /* --- Buttons --- */
   .btn {
     @apply inline-flex cursor-pointer items-center rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2;
   }
@@ -168,7 +172,7 @@
     @apply bg-brand-subtle text-brand hover:bg-brand-muted focus-visible:outline-brand;
   }
 
-  /* ---- Badges ----------------------------------------------------------- */
+  /* --- Badges --- */
   .badge {
     @apply inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold;
   }
@@ -185,7 +189,7 @@
     @apply bg-accent text-white;
   }
 
-  /* ---- Cards ------------------------------------------------------------ */
+  /* --- Cards --- */
   .card {
     @apply rounded-xl border p-5 shadow-sm;
   }
@@ -205,7 +209,7 @@
     @apply text-sm text-gray-600;
   }
 
-  /* ---- Alerts ----------------------------------------------------------- */
+  /* --- Alerts --- */
   .alert {
     @apply rounded-lg border-l-4 px-5 py-4 text-sm;
   }
@@ -219,7 +223,7 @@
     @apply mb-0.5 font-semibold;
   }
 
-  /* ---- Code chip -------------------------------------------------------- */
+  /* --- Code chip --- */
   .code-chip {
     @apply rounded bg-gray-100 px-1.5 py-0.5 font-mono text-xs;
   }
