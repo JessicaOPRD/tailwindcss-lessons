@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en" class="theme-ocean">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind – Multi-theme Tokens</title>
+
+    <!--
+      APPROACH 6: CLI Build — Multi-theme Tokens
+      ============================================
+      Demonstrates two core themes — Ocean (blue) and Forest (green) — each
+      with a light and dark mode, using semantic CSS custom properties.
+
+      Key concepts:
+        1. Token vocabulary  — both themes share the same --color-* names;
+                               only the values change per theme/mode combination
+        2. Token inheritance — CSS custom properties cascade, so a wrapper such
+                               as <div class="theme-ocean dark"> scopes its own
+                               token values without touching <html>
+        3. Zero-utility cost — no component carries a dark: or theme-specific
+                               utility prefix; adding a third theme requires
+                               only a new @layer base block
+
+      Run from 02-cli-build/:  npm run build:multi-theme-tokens
+    -->
+    <link rel="stylesheet" href="dist/output.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner flex items-center justify-between">
+        <span class="site-header__logo">TW Lessons</span>
+        <div class="flex items-center gap-4">
+          <span class="site-header__meta">CLI build · multi-theme tokens</span>
+          <!-- Theme picker -->
+          <div class="flex items-center gap-2">
+            <button class="theme-btn" id="btn-ocean">Ocean</button>
+            <button class="theme-btn" id="btn-forest">Forest</button>
+          </div>
+          <!-- Dark mode toggle -->
+          <button class="theme-btn" id="btn-dark">Dark mode</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <!-- How it works -->
+      <section>
+        <h2 class="section-heading">How multi-theme tokens work</h2>
+        <p class="section-subheading">
+          Both themes share the same token vocabulary —
+          <code class="code-chip">--color-surface</code>,
+          <code class="code-chip">--color-text-primary</code>,
+          <code class="code-chip">--color-accent</code>, and so on. Each
+          theme/mode combination overrides those names with its own values in
+          <code class="code-chip">@layer base</code>. Components reference
+          <code class="code-chip">var(--color-*)</code> throughout; the cascade
+          does the rest.
+        </p>
+
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="token-card">
+            <p class="token-card__label">State 1</p>
+            <p class="token-card__value">
+              <code class="code-chip">theme-ocean</code>
+            </p>
+            <p class="token-card__caption">Ocean — light mode</p>
+          </div>
+
+          <div class="token-card">
+            <p class="token-card__label">State 2</p>
+            <p class="token-card__value">
+              <code class="code-chip">theme-ocean dark</code>
+            </p>
+            <p class="token-card__caption">Ocean — dark mode</p>
+          </div>
+
+          <div class="token-card">
+            <p class="token-card__label">State 3</p>
+            <p class="token-card__value">
+              <code class="code-chip">theme-forest</code>
+            </p>
+            <p class="token-card__caption">Forest — light mode</p>
+          </div>
+
+          <div class="token-card">
+            <p class="token-card__label">State 4</p>
+            <p class="token-card__value">
+              <code class="code-chip">theme-forest dark</code>
+            </p>
+            <p class="token-card__caption">Forest — dark mode</p>
+          </div>
+        </div>
+
+        <div class="callout-note mt-6">
+          <strong>The two-class system:</strong> a theme class (<code
+            class="code-chip"
+            >theme-ocean</code
+          >
+          or <code class="code-chip">theme-forest</code>) sets the palette; an
+          optional <code class="code-chip">dark</code> class shifts it to the
+          dark variant. Applying both classes to
+          <code class="code-chip">&lt;html&gt;</code> — or to any ancestor
+          element — selects one of the four states.
+        </div>
+      </section>
+
+      <!-- All four states at a glance -->
+      <section>
+        <h2 class="section-heading">All four states at a glance</h2>
+        <p class="section-subheading">
+          Each card below is wrapped in a
+          <code class="code-chip">div</code> that carries its own theme and dark
+          class. The cards are <strong>frozen</strong> — they do not respond to
+          the header toggles. Use the header controls to switch the active state
+          and compare it against these fixed references.
+        </p>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <!-- Ocean light — wrapper scopes Ocean light tokens -->
+          <div class="theme-ocean">
+            <div class="theme-card">
+              <div class="theme-card__header">
+                <span class="theme-card__title">Ocean</span>
+                <span class="theme-card__badge">Light</span>
+              </div>
+              <div class="theme-card__body">
+                <div class="theme-card__swatches">
+                  <div
+                    class="theme-card__swatch theme-card__swatch--surface"
+                    title="--color-surface"
+                  ></div>
+                  <div
+                    class="theme-card__swatch theme-card__swatch--sunken"
+                    title="--color-surface-sunken"
+                  ></div>
+                  <div
+                    class="theme-card__swatch theme-card__swatch--accent"
+                    title="--color-accent"
+                  ></div>
+                </div>
+                <p class="theme-card__text-sample">Primary text</p>
+                <p class="theme-card__text-secondary">Secondary text</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ocean dark — wrapper scopes Ocean dark tokens -->
+          <div class="theme-ocean dark">
+            <div class="theme-card">
+              <div class="theme-card__header">
+                <span class="theme-card__title">Ocean</span>
+                <span class="theme-card__badge">Dark</span>
+              </div>
+              <div class="theme-card__body">
+                <div class="theme-card__swatches">
+                  <div
+                    class="theme-card__swatch theme-card__swatch--surface"
+                    title="--color-surface"
+                  ></div>
+                  <div
+                    class="theme-card__swatch theme-card__swatch--sunken"
+                    title="--color-surface-sunken"
+                  ></div>
+                  <div
+                    class="theme-card__swatch theme-card__swatch--accent"
+                    title="--color-accent"
+                  ></div>
+                </div>
+                <p class="theme-card__text-sample">Primary text</p>
+                <p class="theme-card__text-secondary">Secondary text</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Forest light — wrapper scopes Forest light tokens -->
+          <div class="theme-forest">
+            <div class="theme-card">
+              <div class="theme-card__header">
+                <span class="theme-card__title">Forest</span>
+                <span class="theme-card__badge">Light</span>
+              </div>
+              <div class="theme-card__body">
+                <div class="theme-card__swatches">
+                  <div
+                    class="theme-card__swatch theme-card__swatch--surface"
+                    title="--color-surface"
+                  ></div>
+                  <div
+                    class="theme-card__swatch theme-card__swatch--sunken"
+                    title="--color-surface-sunken"
+                  ></div>
+                  <div
+                    class="theme-card__swatch theme-card__swatch--accent"
+                    title="--color-accent"
+                  ></div>
+                </div>
+                <p class="theme-card__text-sample">Primary text</p>
+                <p class="theme-card__text-secondary">Secondary text</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Forest dark — wrapper scopes Forest dark tokens -->
+          <div class="theme-forest dark">
+            <div class="theme-card">
+              <div class="theme-card__header">
+                <span class="theme-card__title">Forest</span>
+                <span class="theme-card__badge">Dark</span>
+              </div>
+              <div class="theme-card__body">
+                <div class="theme-card__swatches">
+                  <div
+                    class="theme-card__swatch theme-card__swatch--surface"
+                    title="--color-surface"
+                  ></div>
+                  <div
+                    class="theme-card__swatch theme-card__swatch--sunken"
+                    title="--color-surface-sunken"
+                  ></div>
+                  <div
+                    class="theme-card__swatch theme-card__swatch--accent"
+                    title="--color-accent"
+                  ></div>
+                </div>
+                <p class="theme-card__text-sample">Primary text</p>
+                <p class="theme-card__text-secondary">Secondary text</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout-note mt-6">
+          <strong>Token inheritance in action:</strong> each wrapper (<code
+            class="code-chip"
+            >div.theme-ocean</code
+          >, <code class="code-chip">div.theme-forest.dark</code>, etc.) defines
+          tokens on itself. CSS custom properties cascade into descendants, so
+          every <code class="code-chip">var()</code> inside the card resolves to
+          that wrapper's values — not to
+          <code class="code-chip">&lt;html&gt;</code>'s. No JavaScript or shadow
+          DOM required.
+        </div>
+      </section>
+
+      <!-- Live token cards -->
+      <section>
+        <h2 class="section-heading">Live token cards</h2>
+        <p class="section-subheading">
+          These cards respond to the header toggles. Every color comes from a
+          <code class="code-chip">var(--color-*)</code> reference — inspect the
+          component CSS in <code class="code-chip">input.css</code> and you will
+          find zero <code class="code-chip">dark:</code> or theme-specific
+          utility prefixes anywhere.
+        </p>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <!-- Surface tokens -->
+          <div class="token-card">
+            <p class="token-card__label">Surface tokens</p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-surface</code>
+            </p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-surface-raised</code>
+            </p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-surface-sunken</code>
+            </p>
+            <p class="token-card__caption">
+              Page and card backgrounds. Light modes use near-white tints; dark
+              modes use deeply saturated shades of the active theme.
+            </p>
+          </div>
+
+          <!-- Text tokens -->
+          <div class="token-card">
+            <p class="token-card__label">Text tokens</p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-text-primary</code>
+            </p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-text-secondary</code>
+            </p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-text-muted</code>
+            </p>
+            <p class="token-card__caption">
+              Typographic hierarchy. All three values adapt to both the active
+              theme and mode — no
+              <code class="code-chip">dark:</code> prefix on any text element.
+            </p>
+          </div>
+
+          <!-- Accent tokens -->
+          <div class="token-card">
+            <p class="token-card__label">Accent tokens</p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-accent</code>
+            </p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-accent-foreground</code>
+            </p>
+            <p class="token-card__caption">
+              Primary interactive color and the text placed on top of it. The
+              site header uses
+              <code class="code-chip">--color-accent</code> as its background,
+              making theme changes immediately visible.
+            </p>
+          </div>
+
+          <!-- Border token -->
+          <div class="token-card">
+            <p class="token-card__label">Border token</p>
+            <p class="token-card__value">
+              <code class="code-chip">--color-border</code>
+            </p>
+            <p class="token-card__caption">
+              Shared border and divider color. A single token covers all card
+              edges and dividers. Inspect the frozen cards above — the
+              <code class="code-chip">.theme-card</code> CSS carries no
+              per-theme overrides.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- No utilities needed -->
+      <section>
+        <h2 class="section-heading">No theme or dark: utilities needed</h2>
+        <p class="section-subheading">
+          Open <code class="code-chip">input.css</code> and inspect any
+          component class — none of them contain a
+          <code class="code-chip">dark:</code> or theme-specific utility prefix.
+          The entire theme system lives in four
+          <code class="code-chip">@layer base</code> blocks.
+        </p>
+
+        <div class="callout-note">
+          <strong>Scaling to more themes:</strong> adding a third theme (e.g.
+          <code class="code-chip">theme-sunset</code>) requires one new CSS
+          block in <code class="code-chip">@layer base</code> defining the same
+          token names with new values, plus a
+          <code class="code-chip">.theme-sunset.dark</code> override — zero
+          component changes. Compare this to the inline-utilities approach in
+          lesson 07, where every color-bearing element would need two new
+          utility prefixes per added theme.
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      Tailwind CSS v4 — lesson 06 · multi-theme tokens
+    </footer>
+
+    <script>
+      /* Theme picker and dark mode toggle */
+      const html = document.documentElement;
+      const oceanBtn = document.getElementById("btn-ocean");
+      const forestBtn = document.getElementById("btn-forest");
+      const darkBtn = document.getElementById("btn-dark");
+
+      function setTheme(theme) {
+        html.classList.remove("theme-ocean", "theme-forest");
+        html.classList.add(theme);
+        oceanBtn.classList.toggle("theme-btn--active", theme === "theme-ocean");
+        forestBtn.classList.toggle(
+          "theme-btn--active",
+          theme === "theme-forest",
+        );
+      }
+
+      darkBtn.addEventListener("click", () => {
+        const isDark = html.classList.toggle("dark");
+        darkBtn.textContent = isDark ? "Light mode" : "Dark mode";
+      });
+
+      oceanBtn.addEventListener("click", () => setTheme("theme-ocean"));
+      forestBtn.addEventListener("click", () => setTheme("theme-forest"));
+
+      /* Sync button state with the class already on <html> */
+      setTheme("theme-ocean");
+    </script>
+  </body>
+</html>

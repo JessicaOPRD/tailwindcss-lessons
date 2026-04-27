@@ -38,11 +38,13 @@
         <h2 class="section-heading">Spacing multiplier</h2>
         <p class="section-subheading">
           <code class="code-chip">--spacing: 0.3125rem</code> (5&thinsp;px)
-          replaces the default <code class="code-chip">0.25rem</code>
-          (4&thinsp;px). Every <code class="code-chip">w-*</code>,
-          <code class="code-chip">p-*</code>, <code class="code-chip">m-*</code
-          >, and <code class="code-chip">gap-*</code> utility is derived from
-          this single multiplier via
+          replaces the default
+          <code class="code-chip">0.25rem</code> (4&thinsp;px). Every
+          <code class="code-chip">w-*</code>,
+          <code class="code-chip">p-*</code>,
+          <code class="code-chip">m-*</code>, and
+          <code class="code-chip">gap-*</code> utility is derived from this
+          single multiplier via
           <code class="code-chip">calc(var(--spacing) * n)</code>.
         </p>
 
@@ -123,37 +125,49 @@
         </p>
 
         <div class="radius-grid flex flex-wrap gap-4">
-          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-sm">
+          <div
+            class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-sm"
+          >
             <code class="code-chip">rounded-sm</code>
             <span class="radius-swatch__value">4 px</span>
             <span class="radius-swatch__default">default: 2 px</span>
           </div>
 
-          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-md">
+          <div
+            class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-md"
+          >
             <code class="code-chip">rounded-md</code>
             <span class="radius-swatch__value">8 px</span>
             <span class="radius-swatch__default">default: 6 px</span>
           </div>
 
-          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-lg">
+          <div
+            class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-lg"
+          >
             <code class="code-chip">rounded-lg</code>
             <span class="radius-swatch__value">12 px</span>
             <span class="radius-swatch__default">default: 8 px</span>
           </div>
 
-          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-xl">
+          <div
+            class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-xl"
+          >
             <code class="code-chip">rounded-xl</code>
             <span class="radius-swatch__value">20 px</span>
             <span class="radius-swatch__default">default: 12 px</span>
           </div>
 
-          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-2xl">
+          <div
+            class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-2xl"
+          >
             <code class="code-chip">rounded-2xl</code>
             <span class="radius-swatch__value">32 px</span>
             <span class="radius-swatch__default">default: 16 px</span>
           </div>
 
-          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-3xl">
+          <div
+            class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-3xl"
+          >
             <code class="code-chip">rounded-3xl</code>
             <span class="radius-swatch__value">24 px</span>
             <span class="radius-swatch__default">unchanged</span>
@@ -164,7 +178,9 @@
             no corresponding --radius-* token, so it cannot be overridden
             through @theme.
           -->
-          <div class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-full">
+          <div
+            class="radius-swatch flex flex-col items-center justify-center gap-1 rounded-full"
+          >
             <code class="code-chip">rounded-full</code>
             <span class="radius-swatch__value">9999 px</span>
             <span class="radius-swatch__default">hardcoded, not a token</span>
@@ -182,39 +198,53 @@
         </p>
 
         <div class="flex flex-wrap gap-3">
-          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-200">
+          <div
+            class="color-step flex flex-col items-center justify-center gap-1 bg-blue-200"
+          >
             <span class="color-step__label text-blue-900">blue-200</span>
             <span class="color-step__flag">default</span>
           </div>
 
-          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-300">
+          <div
+            class="color-step flex flex-col items-center justify-center gap-1 bg-blue-300"
+          >
             <span class="color-step__label text-blue-900">blue-300</span>
             <span class="color-step__flag">default</span>
           </div>
 
-          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-400">
+          <div
+            class="color-step flex flex-col items-center justify-center gap-1 bg-blue-400"
+          >
             <span class="color-step__label text-white">blue-400</span>
             <span class="color-step__flag">default</span>
           </div>
 
-          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-500">
+          <div
+            class="color-step flex flex-col items-center justify-center gap-1 bg-blue-500"
+          >
             <span class="color-step__label text-white">blue-500</span>
             <span class="color-step__flag color-step__flag--overridden"
               >overridden</span
             >
           </div>
 
-          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-600">
+          <div
+            class="color-step flex flex-col items-center justify-center gap-1 bg-blue-600"
+          >
             <span class="color-step__label text-white">blue-600</span>
             <span class="color-step__flag">default</span>
           </div>
 
-          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-700">
+          <div
+            class="color-step flex flex-col items-center justify-center gap-1 bg-blue-700"
+          >
             <span class="color-step__label text-white">blue-700</span>
             <span class="color-step__flag">default</span>
           </div>
 
-          <div class="color-step flex flex-col items-center justify-center gap-1 bg-blue-900">
+          <div
+            class="color-step flex flex-col items-center justify-center gap-1 bg-blue-900"
+          >
             <span class="color-step__label text-blue-100">blue-900</span>
             <span class="color-step__flag">default</span>
           </div>

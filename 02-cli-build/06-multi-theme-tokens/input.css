@@ -1,0 +1,348 @@
+/*
+  CLI Build – 06 Multi-theme Tokens
+  ====================================
+  Demonstrates multi-theme light/dark theming using semantic CSS tokens.
+
+  Concepts covered:
+  • Multiple theme classes — .theme-ocean and .theme-forest each define a
+                             complete token set; two themes × two modes = four
+                             states, all resolved through the same var() calls
+  • Semantic CSS tokens   — all four states live in @layer base; components
+                             reference var(--color-*) and carry zero dark: or
+                             theme-specific utility prefixes
+  • Token inheritance     — CSS custom properties cascade, so a scoped wrapper
+                             (e.g. <div class="theme-ocean dark">) produces an
+                             isolated frozen preview without touching <html>
+
+  Run from 02-cli-build/:
+    npm run build:multi-theme-tokens
+    npm run watch:multi-theme-tokens
+*/
+@import "tailwindcss";
+
+/*
+  CLASS-BASED DARK MODE
+  ──────────────────────
+  @variant dark (.dark &) makes dark: utilities respond to a .dark ancestor
+  class instead of prefers-color-scheme. No component in this lesson uses
+  dark: utilities — this declaration exists for consistency and to support
+  any ad-hoc dark: overrides added directly in markup.
+*/
+@variant dark (.dark &);
+
+/* -------------------------------------------------------------------------- */
+/* SECTION: Base */
+/* PURPOSE: Element defaults and semantic color token definitions */
+/* -------------------------------------------------------------------------- */
+
+@layer base {
+  /*
+    SEMANTIC COLOR TOKENS
+    ──────────────────────
+    Each block below defines the same shared vocabulary of tokens for one
+    theme/mode combination. Components reference var() throughout — switching
+    theme or mode requires only a class change on an ancestor element.
+
+    Token groups:
+      --color-surface-*          — page and card backgrounds
+      --color-text-*             — typographic hierarchy
+      --color-border             — border and divider color
+      --color-accent             — primary brand/interactive color
+      --color-accent-foreground  — text placed directly on the accent color
+  */
+
+  /* SUBSECTION: Ocean light */
+  /* PURPOSE: Blue-tinted light palette; also serves as the :root fallback */
+
+  :root,
+  .theme-ocean {
+    /* Surfaces */
+    --color-surface: #ffffff;
+    --color-surface-raised: #eff6ff; /* blue-50 */
+    --color-surface-sunken: #dbeafe; /* blue-100 */
+
+    /* Text */
+    --color-text-primary: #1e3a8a; /* blue-900 */
+    --color-text-secondary: #1d4ed8; /* blue-700 */
+    --color-text-muted: #60a5fa; /* blue-400 */
+
+    /* Border */
+    --color-border: #bfdbfe; /* blue-200 */
+
+    /* Accent */
+    --color-accent: #2563eb; /* blue-600 */
+    --color-accent-foreground: #ffffff;
+  }
+
+  /* SUBSECTION: Ocean dark */
+  /* PURPOSE: Deep navy palette for Ocean theme in dark mode */
+
+  .theme-ocean.dark {
+    /* Surfaces */
+    --color-surface: #172554; /* blue-950 */
+    --color-surface-raised: #1e3a8a; /* blue-900 */
+    --color-surface-sunken: #1e40af; /* blue-800 */
+
+    /* Text */
+    --color-text-primary: #eff6ff; /* blue-50 */
+    --color-text-secondary: #93c5fd; /* blue-300 */
+    --color-text-muted: #60a5fa; /* blue-400 */
+
+    /* Border */
+    --color-border: #1e40af; /* blue-800 */
+
+    /* Accent */
+    --color-accent: #60a5fa; /* blue-400 */
+    --color-accent-foreground: #172554; /* blue-950 */
+  }
+
+  /* SUBSECTION: Forest light */
+  /* PURPOSE: Green-tinted light palette */
+
+  .theme-forest {
+    /* Surfaces */
+    --color-surface: #ffffff;
+    --color-surface-raised: #f0fdf4; /* green-50 */
+    --color-surface-sunken: #dcfce7; /* green-100 */
+
+    /* Text */
+    --color-text-primary: #14532d; /* green-900 */
+    --color-text-secondary: #15803d; /* green-700 */
+    --color-text-muted: #4ade80; /* green-400 */
+
+    /* Border */
+    --color-border: #bbf7d0; /* green-200 */
+
+    /* Accent */
+    --color-accent: #16a34a; /* green-600 */
+    --color-accent-foreground: #ffffff;
+  }
+
+  /* SUBSECTION: Forest dark */
+  /* PURPOSE: Deep emerald palette for Forest theme in dark mode */
+
+  .theme-forest.dark {
+    /* Surfaces */
+    --color-surface: #052e16; /* green-950 */
+    --color-surface-raised: #14532d; /* green-900 */
+    --color-surface-sunken: #166534; /* green-800 */
+
+    /* Text */
+    --color-text-primary: #f0fdf4; /* green-50 */
+    --color-text-secondary: #86efac; /* green-300 */
+    --color-text-muted: #4ade80; /* green-400 */
+
+    /* Border */
+    --color-border: #166534; /* green-800 */
+
+    /* Accent */
+    --color-accent: #4ade80; /* green-400 */
+    --color-accent-foreground: #052e16; /* green-950 */
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    /*
+      transition-colors animates background-color, color, and border-color.
+      Scoped to body because these changes are driven by intentional user
+      toggles; avoid blanket transitions in production to prevent unrelated
+      interactions from animating.
+    */
+    @apply antialiased transition-colors duration-300;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION: Components */
+/* PURPOSE: Structural and reusable UI pieces */
+/* -------------------------------------------------------------------------- */
+
+@layer components {
+  /* SUBSECTION: Layout */
+  /* PURPOSE: Site-level structural containers */
+
+  .site-header {
+    /*
+      Using the accent token as the header background makes the header an
+      immediate visual indicator of the active theme — switching Ocean ↔
+      Forest changes the color with no component edits required.
+    */
+    background-color: var(--color-accent);
+    color: var(--color-accent-foreground);
+    @apply shadow-md transition-colors duration-300;
+  }
+
+  .site-header__inner {
+    @apply mx-auto max-w-5xl px-6 py-4;
+  }
+
+  .site-header__logo {
+    @apply text-xl font-bold tracking-tight;
+  }
+
+  .site-header__meta {
+    @apply text-sm opacity-75;
+  }
+
+  .page-main {
+    @apply mx-auto max-w-5xl space-y-12 px-6 py-10;
+  }
+
+  .site-footer {
+    @apply py-6 text-center text-xs;
+    color: var(--color-text-muted);
+  }
+
+  /* SUBSECTION: Header controls */
+  /* PURPOSE: Theme picker and dark mode toggle buttons in the site header */
+
+  .theme-btn {
+    @apply cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-colors;
+    background-color: rgb(255 255 255 / 0.15);
+    color: var(--color-accent-foreground);
+  }
+
+  .theme-btn:hover {
+    background-color: rgb(255 255 255 / 0.25);
+  }
+
+  /*
+    Outline uses plain CSS rather than @apply to avoid opacity-modifier
+    handling differences across Tailwind versions.
+  */
+  .theme-btn--active {
+    background-color: rgb(255 255 255 / 0.3);
+    outline: 2px solid rgb(255 255 255 / 0.5);
+    outline-offset: 1px;
+  }
+
+  /* SUBSECTION: Section headings */
+  /* PURPOSE: Heading and subtitle typographic helpers */
+
+  .section-heading {
+    @apply mb-3 text-xl font-semibold tracking-tight;
+    color: var(--color-text-primary);
+  }
+
+  .section-subheading {
+    @apply mb-6 text-sm leading-relaxed;
+    color: var(--color-text-secondary);
+  }
+
+  /* SUBSECTION: Code chip */
+  /* PURPOSE: Inline monospace label for class names or property values */
+
+  .code-chip {
+    @apply rounded px-1.5 py-0.5 font-mono text-xs font-medium;
+    background-color: var(--color-surface-sunken);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+  }
+
+  /* SUBSECTION: Theme cards */
+  /* PURPOSE: Frozen single-state previews for the all-four-states comparison */
+
+  /*
+    Each .theme-card sits inside a wrapper that carries the theme class and
+    optionally .dark (e.g. <div class="theme-forest dark">). CSS custom
+    properties cascade from that wrapper into every var() call inside the
+    card — so the card renders the correct palette regardless of the class
+    on <html>. No JavaScript or special scoping API required.
+  */
+  .theme-card {
+    @apply overflow-hidden rounded-xl border;
+    background-color: var(--color-surface-raised);
+    border-color: var(--color-border);
+  }
+
+  .theme-card__header {
+    @apply flex items-center justify-between px-4 py-3;
+    background-color: var(--color-accent);
+    color: var(--color-accent-foreground);
+  }
+
+  .theme-card__title {
+    @apply text-sm font-semibold;
+  }
+
+  .theme-card__badge {
+    @apply rounded-full px-2 py-0.5 text-xs;
+    background-color: rgb(255 255 255 / 0.2);
+  }
+
+  .theme-card__body {
+    @apply space-y-3 p-4;
+  }
+
+  .theme-card__swatches {
+    @apply flex gap-2;
+  }
+
+  .theme-card__swatch {
+    @apply h-7 w-7 rounded-full border;
+    border-color: var(--color-border);
+  }
+
+  .theme-card__swatch--surface {
+    background-color: var(--color-surface);
+  }
+
+  .theme-card__swatch--sunken {
+    background-color: var(--color-surface-sunken);
+  }
+
+  .theme-card__swatch--accent {
+    background-color: var(--color-accent);
+  }
+
+  .theme-card__text-sample {
+    @apply text-sm font-medium;
+    color: var(--color-text-primary);
+  }
+
+  .theme-card__text-secondary {
+    @apply text-xs;
+    color: var(--color-text-secondary);
+  }
+
+  /* SUBSECTION: Token cards */
+  /* PURPOSE: Live-response cards showing current theme/mode token values */
+
+  /*
+    No theme-specific or dark: utilities anywhere in this block. When the
+    theme class or .dark changes on <html>, every var() reference updates
+    automatically. This component would work identically for a third or
+    fourth theme without any edits.
+  */
+  .token-card {
+    @apply rounded-lg border p-5 transition-colors duration-300;
+    background-color: var(--color-surface-raised);
+    border-color: var(--color-border);
+  }
+
+  .token-card__label {
+    @apply mb-1.5 text-xs font-semibold tracking-wider uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .token-card__value {
+    @apply mb-1 font-mono text-sm font-medium;
+    color: var(--color-text-primary);
+  }
+
+  .token-card__caption {
+    @apply mt-3 text-xs leading-relaxed;
+    color: var(--color-text-secondary);
+  }
+
+  /* SUBSECTION: Callout notes */
+  /* PURPOSE: Highlighted info boxes for lesson observations and tips */
+
+  .callout-note {
+    @apply rounded-md border-l-4 p-4 text-sm leading-relaxed;
+    border-left-color: var(--color-accent);
+    background-color: var(--color-surface-raised);
+    color: var(--color-text-secondary);
+  }
+}
