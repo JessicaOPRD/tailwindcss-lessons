@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en" class="theme-ocean">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind – Multi-theme Utilities</title>
+
+    <!--
+      APPROACH 7: CLI Build — Multi-theme Utilities
+      ===============================================
+      Demonstrates the same four states as lesson 06 (Ocean light, Ocean dark,
+      Forest light, Forest dark) using custom @variant declarations and inline
+      utility prefixes instead of semantic CSS tokens.
+
+      Key concepts:
+        1. @variant mapping — @variant ocean (.theme-ocean &) tells Tailwind to
+                              generate .theme-ocean .el { ... } rules for every
+                              ocean: prefixed utility
+        2. Specificity order — ocean-dark/forest-dark selectors carry one extra
+                               class; dark overrides base without source-order tricks
+        3. Verbosity cost   — every color-bearing property on every component needs
+                              all four prefixes in @apply; compare input.css with
+                              lesson 06's input.css to see the difference
+        4. Cascade limitation — variant selectors match any ancestor, not the
+                                nearest one; scoping themes to subtrees is not
+                                possible with this approach (see section 4 below)
+
+      Run from 02-cli-build/:  npm run build:multi-theme-utilities
+    -->
+    <link rel="stylesheet" href="dist/output.css" />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner flex items-center justify-between">
+        <span class="site-header__logo">TW Lessons</span>
+        <div class="flex items-center gap-4">
+          <span class="site-header__meta"
+            >CLI build · multi-theme utilities</span
+          >
+          <!-- Theme picker -->
+          <div class="flex items-center gap-2">
+            <button class="theme-btn" id="btn-ocean">Ocean</button>
+            <button class="theme-btn" id="btn-forest">Forest</button>
+          </div>
+          <!-- Dark mode toggle -->
+          <button class="theme-btn" id="btn-dark">Dark mode</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <!-- How @variant works -->
+      <section>
+        <h2 class="section-heading">How @variant works</h2>
+        <p class="section-subheading">
+          Each <code class="code-chip">@variant</code> declaration maps a prefix
+          name to a CSS selector. When Tailwind encounters a prefixed utility
+          such as <code class="code-chip">ocean:bg-blue-50</code>, it generates
+          a rule scoped to that selector. Four declarations cover the four
+          theme/mode combinations.
+        </p>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div class="utility-card">
+            <p class="utility-card__label">Light modes</p>
+            <p class="utility-card__value">
+              <code class="code-chip">@variant ocean (.theme-ocean &amp;)</code>
+            </p>
+            <p class="utility-card__value">
+              <code class="code-chip"
+                >@variant forest (.theme-forest &amp;)</code
+              >
+            </p>
+            <p class="utility-card__caption">
+              <code class="code-chip">ocean:bg-blue-50</code> generates
+              <code class="code-chip"
+                >.theme-ocean .el { background: #eff6ff }</code
+              >. Specificity: 0,2,0 — one theme class plus one element class.
+            </p>
+          </div>
+
+          <div class="utility-card">
+            <p class="utility-card__label">Dark modes</p>
+            <p class="utility-card__value">
+              <code class="code-chip"
+                >@variant ocean-dark (.theme-ocean.dark &amp;)</code
+              >
+            </p>
+            <p class="utility-card__value">
+              <code class="code-chip"
+                >@variant forest-dark (.theme-forest.dark &amp;)</code
+              >
+            </p>
+            <p class="utility-card__caption">
+              <code class="code-chip">ocean-dark:bg-blue-900</code> generates
+              <code class="code-chip">.theme-ocean.dark .el { ... }</code>.
+              Specificity: 0,3,0 — the compound selector automatically overrides
+              the base variant without relying on source order.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout-note mt-6">
+          <strong>No @variant dark needed:</strong> lesson 05 used
+          <code class="code-chip">@variant dark (.dark &amp;)</code> to
+          reconfigure the built-in <code class="code-chip">dark:</code> prefix.
+          This lesson does not declare a standalone
+          <code class="code-chip">dark</code>
+          variant — dark mode is baked into the compound
+          <code class="code-chip">ocean-dark</code> and
+          <code class="code-chip">forest-dark</code> selectors instead.
+        </div>
+      </section>
+
+      <!-- Verbosity in practice -->
+      <section>
+        <h2 class="section-heading">Verbosity in practice</h2>
+        <p class="section-subheading">
+          Every color-bearing property on every element requires all four
+          variant prefixes. The cost is not visible in the HTML (which uses
+          component classes) — it lives in
+          <code class="code-chip">input.css</code>.
+        </p>
+
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <!-- Lesson 7 component definition (verbose) -->
+          <div class="utility-card">
+            <p class="utility-card__label">Lesson 07 — this file's input.css</p>
+            <p class="utility-card__caption">
+              The <code class="code-chip">.utility-card</code> component needs 8
+              prefixed utilities for just 2 color properties (background +
+              border). Its sub-elements add another ~20. Total for this one
+              component: ~28 prefixed utilities.
+            </p>
+            <!--
+              Raw element using only inline utility prefixes — no component
+              class. This is what every element looks like before the
+              @layer components abstraction.
+              3 color properties × 4 variants = 12 utility classes.
+            -->
+            <div
+              class="ocean:bg-blue-50 ocean:border-blue-200 ocean:text-blue-800 ocean-dark:bg-blue-900 ocean-dark:border-blue-800 ocean-dark:text-blue-200 forest:bg-green-50 forest:border-green-200 forest:text-green-800 forest-dark:bg-green-900 forest-dark:border-green-800 forest-dark:text-green-200 mt-4 rounded-md border px-3 py-2 text-sm"
+            >
+              3 color props × 4 variants = 12 classes on this one element
+            </div>
+          </div>
+
+          <!-- Lesson 6 equivalent (clean) -->
+          <div class="utility-card">
+            <p class="utility-card__label">Lesson 06 — token approach</p>
+            <p class="utility-card__caption">
+              The same <code class="code-chip">.utility-card</code> in lesson 06
+              carries zero prefixed utilities. Both background and border are
+              covered by two <code class="code-chip">var()</code> calls. All
+              four states are resolved by the token cascade in
+              <code class="code-chip">@layer base</code>.
+            </p>
+            <pre
+              class="ocean:bg-blue-50 ocean:border-blue-200 ocean:text-blue-800 ocean-dark:bg-blue-900 ocean-dark:border-blue-800 ocean-dark:text-blue-200 forest:bg-green-50 forest:border-green-200 forest:text-green-800 forest-dark:bg-green-900 forest-dark:border-green-800 forest-dark:text-green-200 mt-4 overflow-x-auto rounded-md border px-3 py-2 font-mono text-xs"
+            ><code>.utility-card {
+  background-color: var(--color-surface-raised);
+  border-color:     var(--color-border);
+  /* 0 prefixed utilities */
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="callout-note mt-6">
+          <strong>The abstraction ceiling:</strong> component classes in
+          <code class="code-chip">@layer components</code> hide the verbosity
+          from the HTML — but it still exists in
+          <code class="code-chip">input.css</code>. Inspect
+          <code class="code-chip">input.css</code> and count the
+          <code class="code-chip">@apply</code> lines in any component; compare
+          with lesson 06's equivalent block.
+        </div>
+      </section>
+
+      <!-- Live utility cards -->
+      <section>
+        <h2 class="section-heading">Live utility cards</h2>
+        <p class="section-subheading">
+          These cards respond to the header toggles. Each one uses component
+          classes defined in <code class="code-chip">input.css</code> with
+          <code class="code-chip">@apply</code> — the HTML is as clean as lesson
+          06, but open <code class="code-chip">input.css</code> to see where the
+          complexity went.
+        </p>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <!-- Variant declarations -->
+          <div class="utility-card">
+            <p class="utility-card__label">Variant declarations</p>
+            <p class="utility-card__value">
+              <code class="code-chip">@variant ocean</code>
+            </p>
+            <p class="utility-card__value">
+              <code class="code-chip">@variant ocean-dark</code>
+            </p>
+            <p class="utility-card__value">
+              <code class="code-chip">@variant forest</code>
+            </p>
+            <p class="utility-card__value">
+              <code class="code-chip">@variant forest-dark</code>
+            </p>
+            <p class="utility-card__caption">
+              Declared once in <code class="code-chip">input.css</code>; usable
+              anywhere — in <code class="code-chip">@apply</code> blocks or
+              directly in HTML markup.
+            </p>
+          </div>
+
+          <!-- Specificity -->
+          <div class="utility-card">
+            <p class="utility-card__label">Specificity</p>
+            <p class="utility-card__value">
+              <code class="code-chip">0,2,0</code> — base variants
+            </p>
+            <p class="utility-card__value">
+              <code class="code-chip">0,3,0</code> — dark variants
+            </p>
+            <p class="utility-card__caption">
+              The compound dark selector gains one extra class (<code
+                class="code-chip"
+                >.theme-ocean.dark</code
+              >), raising specificity. Dark values win without needing to be
+              declared last in the stylesheet.
+            </p>
+          </div>
+
+          <!-- Generated CSS shape -->
+          <div class="utility-card">
+            <p class="utility-card__label">Generated CSS shape</p>
+            <p class="utility-card__caption">
+              Every prefixed utility produces one descendant rule:
+            </p>
+            <pre
+              class="ocean:text-blue-800 ocean-dark:text-blue-200 forest:text-green-800 forest-dark:text-green-200 mt-2 overflow-x-auto font-mono text-xs"
+            ><code>.theme-ocean .el {
+  background: #eff6ff
+}
+.theme-ocean.dark .el {
+  background: #1e3a8a
+}</code></pre>
+          </div>
+
+          <!-- Theme switching -->
+          <div class="utility-card">
+            <p class="utility-card__label">Switching mechanism</p>
+            <p class="utility-card__caption">
+              JS adds one theme class and optionally
+              <code class="code-chip">.dark</code> to
+              <code class="code-chip">&lt;html&gt;</code>. The variant selectors
+              activate because the element now has a matching ancestor.
+              Identical to lesson 06 — the JS toggle logic is the same.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cascade limitation -->
+      <section>
+        <h2 class="section-heading">A key limitation: no subtree scoping</h2>
+        <p class="section-subheading">
+          Variant selectors match any ancestor with the target class — not the
+          nearest one. This prevents the isolated theme previews that lesson 06
+          achieved using CSS custom property inheritance.
+        </p>
+
+        <div class="callout-note">
+          <strong>Why scoping breaks:</strong> in lesson 06, wrapping a card in
+          <code class="code-chip">&lt;div class="theme-ocean"&gt;</code> scopes
+          its tokens because
+          <code class="code-chip">var(--color-surface)</code> resolves from the
+          nearest ancestor that defines it.<br /><br />
+          In this lesson,
+          <code class="code-chip">ocean:bg-blue-50</code> generates
+          <code class="code-chip">.theme-ocean .el { ... }</code>. If
+          <code class="code-chip">&lt;html&gt;</code> has
+          <code class="code-chip">theme-forest</code> and an inner wrapper has
+          <code class="code-chip">theme-ocean</code>, the element inside matches
+          <em>both</em>
+          <code class="code-chip">.theme-ocean .el</code>
+          and
+          <code class="code-chip">.theme-forest .el</code>
+          — both rules apply, and the last-declared variant wins.<br /><br />
+          <strong>Consequence:</strong> the four frozen preview cards from
+          lesson 06 cannot be replicated here without mixing in CSS custom
+          properties. The token cascade approach handles this naturally;
+          selector-based variants do not.
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      Tailwind CSS v4 — lesson 07 · multi-theme utilities
+    </footer>
+
+    <script>
+      /* Theme picker and dark mode toggle — identical logic to lesson 06 */
+      const html = document.documentElement;
+      const oceanBtn = document.getElementById("btn-ocean");
+      const forestBtn = document.getElementById("btn-forest");
+      const darkBtn = document.getElementById("btn-dark");
+
+      function setTheme(theme) {
+        html.classList.remove("theme-ocean", "theme-forest");
+        html.classList.add(theme);
+        oceanBtn.classList.toggle("theme-btn--active", theme === "theme-ocean");
+        forestBtn.classList.toggle(
+          "theme-btn--active",
+          theme === "theme-forest",
+        );
+      }
+
+      darkBtn.addEventListener("click", () => {
+        const isDark = html.classList.toggle("dark");
+        darkBtn.textContent = isDark ? "Light mode" : "Dark mode";
+      });
+
+      oceanBtn.addEventListener("click", () => setTheme("theme-ocean"));
+      forestBtn.addEventListener("click", () => setTheme("theme-forest"));
+
+      /* Sync button state with the class already on <html> */
+      setTheme("theme-ocean");
+    </script>
+  </body>
+</html>

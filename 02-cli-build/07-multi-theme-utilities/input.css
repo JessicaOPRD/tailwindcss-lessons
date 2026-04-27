@@ -1,0 +1,203 @@
+/*
+  CLI Build – 07 Multi-theme Utilities
+  ======================================
+  Demonstrates multi-theme light/dark theming using custom @variant declarations
+  and inline utility prefixes. Same four states as lesson 06 — no CSS custom
+  properties; every color decision is a prefixed Tailwind utility.
+
+  Concepts covered:
+  • Custom @variant    — maps a shorthand prefix (ocean:, forest:) to a CSS
+                         selector so Tailwind generates the right descendant rule
+  • Four @variants     — ocean, ocean-dark, forest, forest-dark; each targets a
+                         specific combination of theme and mode ancestor classes
+  • Variant specificity — ocean-dark/forest-dark selectors (.theme-ocean.dark)
+                          carry one extra class, giving them higher specificity
+                          than ocean/forest (.theme-ocean) — dark overrides base
+  • Verbosity tradeoff — every color-bearing utility on every component needs
+                          all four prefixes; compare @layer components here with
+                          lesson 06 to see the cost
+
+  Run from 02-cli-build/:
+    npm run build:multi-theme-utilities
+    npm run watch:multi-theme-utilities
+*/
+@import "tailwindcss";
+
+/*
+  CUSTOM THEME VARIANTS
+  ──────────────────────
+  Each declaration maps a prefix to a CSS ancestor selector. Tailwind generates
+  one rule per prefixed utility per variant. For example, ocean:bg-blue-50 in
+  an @apply block produces:
+
+    .theme-ocean .my-component { background-color: #eff6ff }
+
+  ocean-dark uses a compound selector (.theme-ocean.dark), which has specificity
+  0,3,0 vs ocean's 0,2,0 — so dark overrides base without relying on source
+  order. There is no @variant dark declaration here; dark mode is handled by the
+  compound selectors instead.
+*/
+@variant ocean (.theme-ocean &);
+@variant ocean-dark (.theme-ocean.dark &);
+@variant forest (.theme-forest &);
+@variant forest-dark (.theme-forest.dark &);
+
+/* -------------------------------------------------------------------------- */
+/* SECTION: Base */
+/* PURPOSE: Element defaults with explicit variant prefixes on every property */
+/* -------------------------------------------------------------------------- */
+
+@layer base {
+  /*
+    Unlike lesson 06, there are no CSS custom property blocks here. The body
+    rule carries all four variant prefixes directly. Adding a third theme would
+    require two more @apply lines on every element that references a color —
+    not just one new block in @layer base.
+  */
+  body {
+    @apply antialiased transition-colors duration-300;
+    @apply ocean:bg-white ocean-dark:bg-blue-950 forest:bg-white forest-dark:bg-green-950;
+    @apply ocean:text-blue-900 ocean-dark:text-blue-50 forest:text-green-900 forest-dark:text-green-50;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECTION: Components */
+/* PURPOSE: Structural and reusable UI pieces */
+/* -------------------------------------------------------------------------- */
+
+@layer components {
+  /* SUBSECTION: Layout */
+  /* PURPOSE: Site-level structural containers */
+
+  /*
+    Setting color on .site-header means child elements (logo, meta, buttons)
+    inherit it via CSS cascade — but only because all four variants produce the
+    same foreground: white for the 600-shade headers, dark-themed for the
+    400-shade headers. If child elements needed independent color values, each
+    would require its own four-variant @apply block.
+  */
+  .site-header {
+    @apply shadow-md transition-colors duration-300;
+    @apply ocean:bg-blue-600 ocean:text-white;
+    @apply ocean-dark:bg-blue-400 ocean-dark:text-blue-950;
+    @apply forest:bg-green-600 forest:text-white;
+    @apply forest-dark:bg-green-400 forest-dark:text-green-950;
+  }
+
+  .site-header__inner {
+    @apply mx-auto max-w-5xl px-6 py-4;
+  }
+
+  .site-header__logo {
+    @apply text-xl font-bold tracking-tight;
+  }
+
+  .site-header__meta {
+    @apply text-sm opacity-75;
+  }
+
+  .page-main {
+    @apply mx-auto max-w-5xl space-y-12 px-6 py-10;
+  }
+
+  .site-footer {
+    @apply py-6 text-center text-xs;
+    @apply ocean:text-blue-400 ocean-dark:text-blue-400 forest:text-green-400 forest-dark:text-green-400;
+  }
+
+  /* SUBSECTION: Header controls */
+  /* PURPOSE: Theme picker and dark mode toggle buttons in the site header */
+
+  .theme-btn {
+    @apply cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-colors;
+    /*
+      rgba() background is theme-agnostic — translucent white looks correct
+      against any of the four accent backgrounds — so no variant prefixes needed.
+      Text color inherits from .site-header, which already carries all four
+      variant foreground utilities above.
+    */
+    background-color: rgb(255 255 255 / 0.15);
+  }
+
+  .theme-btn:hover {
+    background-color: rgb(255 255 255 / 0.25);
+  }
+
+  .theme-btn--active {
+    background-color: rgb(255 255 255 / 0.3);
+    outline: 2px solid rgb(255 255 255 / 0.5);
+    outline-offset: 1px;
+  }
+
+  /* SUBSECTION: Section headings */
+  /* PURPOSE: Heading and subtitle typographic helpers */
+
+  .section-heading {
+    @apply mb-3 text-xl font-semibold tracking-tight;
+    @apply ocean:text-blue-900 ocean-dark:text-blue-50 forest:text-green-900 forest-dark:text-green-50;
+  }
+
+  .section-subheading {
+    @apply mb-6 text-sm leading-relaxed;
+    @apply ocean:text-blue-700 ocean-dark:text-blue-300 forest:text-green-700 forest-dark:text-green-300;
+  }
+
+  /* SUBSECTION: Code chip */
+  /* PURPOSE: Inline monospace label for class names or property values */
+
+  /*
+    Three color properties × four variants = 12 @apply entries for this one
+    component. In lesson 06 the same component has zero prefixed utilities.
+  */
+  .code-chip {
+    @apply rounded border px-1.5 py-0.5 font-mono text-xs font-medium;
+    @apply ocean:bg-blue-100 ocean-dark:bg-blue-800 forest:bg-green-100 forest-dark:bg-green-800;
+    @apply ocean:text-blue-900 ocean-dark:text-blue-50 forest:text-green-900 forest-dark:text-green-50;
+    @apply ocean:border-blue-200 ocean-dark:border-blue-800 forest:border-green-200 forest-dark:border-green-800;
+  }
+
+  /* SUBSECTION: Utility cards */
+  /* PURPOSE: Cards that demonstrate live theme/mode response */
+
+  /*
+    Two color properties × four variants = 8 @apply entries on .utility-card
+    alone. The sub-elements add another 4–8 entries each. The total prefixed
+    utility count for this one component block: ~28.
+  */
+  .utility-card {
+    @apply rounded-lg border p-5 transition-colors duration-300;
+    @apply ocean:bg-blue-50 ocean-dark:bg-blue-900 forest:bg-green-50 forest-dark:bg-green-900;
+    @apply ocean:border-blue-200 ocean-dark:border-blue-800 forest:border-green-200 forest-dark:border-green-800;
+  }
+
+  .utility-card__label {
+    @apply mb-1.5 text-xs font-semibold tracking-wider uppercase;
+    @apply ocean:text-blue-400 ocean-dark:text-blue-400 forest:text-green-400 forest-dark:text-green-400;
+  }
+
+  .utility-card__value {
+    @apply mb-1 font-mono text-sm font-medium;
+    @apply ocean:text-blue-900 ocean-dark:text-blue-50 forest:text-green-900 forest-dark:text-green-50;
+  }
+
+  .utility-card__caption {
+    @apply mt-3 text-xs leading-relaxed;
+    @apply ocean:text-blue-700 ocean-dark:text-blue-300 forest:text-green-700 forest-dark:text-green-300;
+  }
+
+  /* SUBSECTION: Callout notes */
+  /* PURPOSE: Highlighted info boxes for lesson observations and tips */
+
+  /*
+    border-l-4 sets the left border width; the border-* color utilities here
+    set all border colors (only the left side is visible because no other side
+    has a non-zero width). Same pattern as lesson 05.
+  */
+  .callout-note {
+    @apply rounded-md border-l-4 p-4 text-sm leading-relaxed;
+    @apply ocean:border-blue-600 ocean-dark:border-blue-400 forest:border-green-600 forest-dark:border-green-400;
+    @apply ocean:bg-blue-50 ocean-dark:bg-blue-900 forest:bg-green-50 forest-dark:bg-green-900;
+    @apply ocean:text-blue-700 ocean-dark:text-blue-300 forest:text-green-700 forest-dark:text-green-300;
+  }
+}
