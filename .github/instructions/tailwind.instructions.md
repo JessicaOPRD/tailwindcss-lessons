@@ -38,9 +38,13 @@ Utilities in this category include (but are not limited to):
 
 ## Layer usage
 
-<!-- TODO: Define what belongs in @layer base (resets, element defaults) -->
-<!-- TODO: Define what belongs in @layer components (reusable patterns composed with @apply) -->
-<!-- TODO: Define what belongs in @layer utilities (single-purpose overrides not covered by Tailwind) -->
+| Layer | What goes here |
+| --- | --- |
+| `@layer base` | Element-level defaults (`body`, `html`); all token definitions (`:root`, `.dark`, `.theme-*` selector blocks) |
+| `@layer components` | Named, reusable component classes using `@apply` and `var()` references; BEM naming |
+| `@layer utilities` | Single-purpose helpers not covered by a built-in utility; rarely needed — prefer a Tailwind utility where one exists |
+
+Put all theme and mode color tokens in `@layer base`, not in `@layer components`. Component classes should reference `var(--color-*)` and contain zero theme-specific or `dark:` utility prefixes.
 
 ## Tailwind vs. components
 
@@ -78,10 +82,89 @@ Where naming aids structure within a component, use BEM: `block__element--modifi
 
 ## Token and custom property naming
 
-<!-- TODO: Document the naming pattern for design tokens (e.g., --color-brand-primary, --spacing-section) -->
-<!-- TODO: Clarify whether theme() or var() is preferred for referencing tokens in CSS -->
-<!-- TODO: Add palette naming conventions introduced in 03-brand-palette/ -->
+All color custom properties use a `--color-` prefix. The standard vocabulary for any theme:
+
+| Token | Role |
+| --- | --- |
+| `--color-surface` | Main page background |
+| `--color-surface-raised` | Elevated surfaces (cards, panels) |
+| `--color-surface-sunken` | Recessed surfaces (inputs, code backgrounds) |
+| `--color-text-primary` | Body copy and headings |
+| `--color-text-secondary` | Supporting text, captions |
+| `--color-text-muted` | Placeholder, disabled, metadata text |
+| `--color-border` | Card edges, dividers |
+| `--color-accent` | Primary interactive / brand color |
+| `--color-accent-foreground` | Text placed directly on the accent color |
+
+### Defining tokens
+
+Declare all tokens inside `@layer base`. The `:root` block provides a fallback (typically the default light theme). Scoped class selectors override the same names for other themes or modes:
+
+```css
+@layer base {
+  :root,
+  .theme-ocean {
+    --color-surface: #ffffff;
+    --color-accent: #2563eb;
+    /* ... */
+  }
+
+  .theme-ocean.dark {
+    --color-surface: #172554;
+    --color-accent: #60a5fa;
+    /* ... */
+  }
+}
+```
+
+### Referencing tokens
+
+Always use `var()` in component CSS — never hard-code raw color values. Prefer `var()` over the `theme()` function; `var()` is the standard in Tailwind v4.
+
+```css
+/* Correct */
+.token-card {
+  background-color: var(--color-surface-raised);
+  border-color: var(--color-border);
+}
+
+/* Avoid */
+.token-card {
+  background-color: #f9fafb; /* hard-coded; breaks on theme switch */
+}
+```
+
+### Theming preference — semantic tokens over per-theme variants
+
+When building multi-theme or light/dark systems, **prefer the semantic token approach** (lessons 05–06) over per-theme `@variant` declarations (lesson 07).
+
+**Prefer — semantic tokens:**
+
+```css
+/* @layer base defines values; components stay clean */
+.my-card {
+  background-color: var(--color-surface-raised); /* works for all themes */
+  border-color: var(--color-border);
+}
+```
+
+**Avoid — per-theme variant prefixes:**
+
+```css
+/* Requires all four prefixes for every color property; doesn't support subtree scoping */
+.my-card {
+  @apply ocean:bg-blue-50 ocean-dark:bg-blue-900 forest:bg-green-50 forest-dark:bg-green-900;
+  @apply ocean:border-blue-200 ocean-dark:border-blue-800 forest:border-green-200 forest-dark:border-green-800;
+}
+```
+
+The token approach scales to additional themes with a single new `@layer base` block and zero component changes. Per-theme variants require new `@apply` lines on every color-bearing property and cannot scope themes to a subtree using CSS custom property inheritance.
 
 ## What to avoid
 
-<!-- TODO: List anti-patterns (e.g., inline style attributes, !important, mixing Tailwind v3 config syntax) -->
+- **Hard-coded color values in component CSS** — use `var(--color-*)` tokens; hard-coded values break when themes or modes switch.
+- **Per-theme `@variant` declarations for color theming** (e.g., `@variant ocean (.theme-ocean &)`) — they prevent subtree scoping, require every color-bearing property to carry multiple prefixes, and scale poorly as themes are added. Use semantic tokens instead.
+- **`dark:` utility prefixes on component classes** — centralize all dark-mode color changes in `@layer base`; components should need no `dark:` prefixes at all.
+- **`theme()` function** — use `var()` in Tailwind v4; `theme()` is a v3 pattern.
+- **`!important`** — specificity problems are a signal to fix the selector, not force an override.
+- **Inline `style` attributes for color** — these bypass the token system and are invisible to theme switching.
