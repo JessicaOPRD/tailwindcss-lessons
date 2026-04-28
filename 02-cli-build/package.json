@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Tailwind v4 CLI build demo",
   "scripts": {
-    "build": "npm run build:utilities && npm run build:layers && npm run build:palette && npm run build:overrides && npm run build:dark-mode && npm run build:multi-theme-tokens && npm run build:multi-theme-utilities",
+    "build": "npm run build:utilities && npm run build:layers && npm run build:palette && npm run build:overrides && npm run build:dark-mode && npm run build:multi-theme-tokens && npm run build:multi-theme-utilities && npm run build:breakpoints",
     "build:utilities": "tailwindcss -i 01-utilities/input.css -o 01-utilities/dist/output.css",
     "build:layers": "tailwindcss -i 02-layers/input.css -o 02-layers/dist/output.css",
     "build:palette": "tailwindcss -i 03-brand-palette/input.css -o 03-brand-palette/dist/output.css",
@@ -11,6 +11,7 @@
     "build:dark-mode": "tailwindcss -i 05-dark-mode/input.css -o 05-dark-mode/dist/output.css",
     "build:multi-theme-tokens": "tailwindcss -i 06-multi-theme-tokens/input.css -o 06-multi-theme-tokens/dist/output.css",
     "build:multi-theme-utilities": "tailwindcss -i 07-multi-theme-utilities/input.css -o 07-multi-theme-utilities/dist/output.css",
+    "build:breakpoints": "tailwindcss -i 08-breakpoints/input.css -o 08-breakpoints/dist/output.css",
     "watch:utilities": "tailwindcss -i 01-utilities/input.css -o 01-utilities/dist/output.css --watch",
     "watch:layers": "tailwindcss -i 02-layers/input.css -o 02-layers/dist/output.css --watch",
     "watch:palette": "tailwindcss -i 03-brand-palette/input.css -o 03-brand-palette/dist/output.css --watch",
@@ -18,6 +19,7 @@
     "watch:dark-mode": "tailwindcss -i 05-dark-mode/input.css -o 05-dark-mode/dist/output.css --watch",
     "watch:multi-theme-tokens": "tailwindcss -i 06-multi-theme-tokens/input.css -o 06-multi-theme-tokens/dist/output.css --watch",
     "watch:multi-theme-utilities": "tailwindcss -i 07-multi-theme-utilities/input.css -o 07-multi-theme-utilities/dist/output.css --watch",
+    "watch:breakpoints": "tailwindcss -i 08-breakpoints/input.css -o 08-breakpoints/dist/output.css --watch",
     "format": "prettier --write \"**/*.html\" \"**/*.css\""
   },
   "devDependencies": {

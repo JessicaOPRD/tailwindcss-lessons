@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind – Responsive Breakpoints</title>
+
+    <!--
+      APPROACH 8: CLI Build — Responsive Breakpoints
+      ================================================
+      Tailwind's responsive prefix system is mobile-first: every unprefixed
+      utility applies at all widths; a breakpoint prefix (sm:, md:, lg:, …)
+      wraps the rule in a min-width media query so it kicks in at that width
+      and stays on for all larger widths above it.
+
+      Topics covered:
+        1. Mobile-first mental model — a label that tracks the active range
+        2. Responsive grids — grid-cols-* across xs / md / lg breakpoints
+        3. Responsive visibility — block/hidden pairs for show/hide
+        4. Responsive typography & spacing — text-* and px-* at breakpoints
+        5. Custom breakpoint — --breakpoint-xs defined in @theme (v4-specific)
+        6. Breakpoints in JavaScript — hardcoded matchMedia, then CSS var approach
+
+      Run from 02-cli-build/:  npm run build:breakpoints
+    -->
+    <link rel="stylesheet" href="dist/output.css" />
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="site-header">
+      <div class="site-header__inner">
+        <span class="site-header__logo">TW Lessons</span>
+        <span class="site-header__meta"
+          >CLI build · responsive breakpoints</span
+        >
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="page-main">
+      <!-- ------------------------------------------------------------------ -->
+      <!-- Section 1: Mobile-first mental model -->
+      <!-- ------------------------------------------------------------------ -->
+      <section>
+        <h2 class="section-heading">Mobile-first mental model</h2>
+        <p class="section-note">
+          Tailwind is <strong>mobile-first</strong>: unprefixed utilities apply
+          at every width. A breakpoint prefix adds a
+          <code class="code-chip">min-width</code> guard — it activates
+          <em>at</em> that width and remains active at all larger sizes above
+          it. Resize the window to see the active range below update.
+        </p>
+
+        <!--
+          Each span is visible only within one breakpoint range using a
+          block + hidden pair. Because the ranges are mutually exclusive,
+          exactly one span is visible at any viewport width.
+        -->
+        <div class="flex flex-wrap gap-2 text-sm font-medium">
+          <span
+            class="xs:hidden block rounded-full bg-gray-200 px-3 py-1 text-gray-600"
+            >base (&lt; 480px)</span
+          >
+          <span
+            class="xs:block hidden rounded-full bg-violet-200 px-3 py-1 text-violet-700 sm:hidden"
+            >xs · 480px+</span
+          >
+          <span
+            class="hidden rounded-full bg-blue-200 px-3 py-1 text-blue-700 sm:block md:hidden"
+            >sm · 640px+</span
+          >
+          <span
+            class="hidden rounded-full bg-emerald-200 px-3 py-1 text-emerald-700 md:block lg:hidden"
+            >md · 768px+</span
+          >
+          <span
+            class="hidden rounded-full bg-amber-200 px-3 py-1 text-amber-700 lg:block xl:hidden"
+            >lg · 1024px+</span
+          >
+          <span
+            class="hidden rounded-full bg-orange-200 px-3 py-1 text-orange-700 xl:block 2xl:hidden"
+            >xl · 1280px+</span
+          >
+          <span
+            class="hidden rounded-full bg-rose-200 px-3 py-1 text-rose-700 2xl:block"
+            >2xl · 1536px+</span
+          >
+        </div>
+
+        <div class="callout callout--indigo mt-6">
+          <p class="callout__heading">How the prefix cascade works</p>
+          <p class="callout__body">
+            <code class="code-chip"
+              >class="text-sm md:text-base lg:text-lg"</code
+            >
+            sets <code class="code-chip">font-size</code> three times — the last
+            matching rule wins. At 500px only
+            <code class="code-chip">text-sm</code> applies; at 900px both
+            <code class="code-chip">text-sm</code> and
+            <code class="code-chip">md:text-base</code> match, so
+            <code class="code-chip">md:text-base</code> wins; at 1100px
+            <code class="code-chip">lg:text-lg</code> takes over.
+          </p>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------------ -->
+      <!-- Section 2: Responsive grid -->
+      <!-- ------------------------------------------------------------------ -->
+      <section>
+        <h2 class="section-heading">Responsive grid</h2>
+        <p class="section-note">
+          Resize the window. The grid shifts from 1 → 2 → 3 → 4 columns using
+          <code class="code-chip">xs:</code>,
+          <code class="code-chip">md:</code>, and
+          <code class="code-chip">lg:</code> prefixes. The
+          <code class="code-chip">xs:</code> prefix comes from the custom
+          <code class="code-chip">--breakpoint-xs</code> token defined in
+          <code class="code-chip">input.css</code> — see section 5 for details.
+        </p>
+
+        <!-- 1 col (base) → 2 col (xs · 480px) → 3 col (md · 768px) → 4 col (lg · 1024px) -->
+        <div
+          class="xs:grid-cols-2 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
+        >
+          <div class="card">
+            <p class="card__title">Card 1</p>
+            <p class="card__body">1 col by default</p>
+          </div>
+          <div class="card">
+            <p class="card__title">Card 2</p>
+            <p class="card__body">2 col at xs · 480px</p>
+          </div>
+          <div class="card">
+            <p class="card__title">Card 3</p>
+            <p class="card__body">3 col at md · 768px</p>
+          </div>
+          <div class="card">
+            <p class="card__title">Card 4</p>
+            <p class="card__body">4 col at lg · 1024px</p>
+          </div>
+          <div class="card">
+            <p class="card__title">Card 5</p>
+            <p class="card__body">5 of 8 items</p>
+          </div>
+          <div class="card">
+            <p class="card__title">Card 6</p>
+            <p class="card__body">6 of 8 items</p>
+          </div>
+          <div class="card">
+            <p class="card__title">Card 7</p>
+            <p class="card__body">7 of 8 items</p>
+          </div>
+          <div class="card">
+            <p class="card__title">Card 8</p>
+            <p class="card__body">8 of 8 items</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------------ -->
+      <!-- Section 3: Responsive visibility -->
+      <!-- ------------------------------------------------------------------ -->
+      <section>
+        <h2 class="section-heading">Responsive visibility</h2>
+        <p class="section-note">
+          Pair <code class="code-chip">block</code> and
+          <code class="code-chip">hidden</code> with a breakpoint prefix to show
+          or hide elements at specific viewport sizes. Each box below is the
+          mirror image of the other — resize the window past 768px to swap them.
+        </p>
+
+        <!-- Mobile summary — visible below md (768px) -->
+        <div
+          class="block rounded-lg border border-sky-200 bg-sky-50 p-4 md:hidden"
+        >
+          <p class="font-semibold text-sky-800">Mobile summary</p>
+          <p class="mt-1 text-sm text-sky-700">
+            Visible below <code class="code-chip">md</code> (768px). Use
+            condensed content here — abbreviated labels, stacked layout, fewer
+            columns.
+          </p>
+          <p class="mt-2 text-xs text-sky-500">
+            Classes: <code class="code-chip">block md:hidden</code>
+          </p>
+        </div>
+
+        <!-- Desktop panel — visible at md (768px) and above -->
+        <div
+          class="hidden rounded-lg border border-emerald-200 bg-emerald-50 p-4 md:block"
+        >
+          <p class="font-semibold text-emerald-800">Desktop panel</p>
+          <p class="mt-1 text-sm text-emerald-700">
+            Visible from <code class="code-chip">md</code> (768px) upward. Use
+            expanded layouts here — full tables, sidebars, multi-column prose.
+          </p>
+          <p class="mt-2 text-xs text-emerald-500">
+            Classes: <code class="code-chip">hidden md:block</code>
+          </p>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------------ -->
+      <!-- Section 4: Responsive typography & spacing -->
+      <!-- ------------------------------------------------------------------ -->
+      <section>
+        <h2 class="section-heading">Responsive typography &amp; spacing</h2>
+        <p class="section-note">
+          Any utility accepts a breakpoint prefix — not just layout classes. The
+          heading and body copy below grow with the viewport, and the container
+          padding widens at the same breakpoints.
+        </p>
+
+        <!-- Container padding and text size both scale with viewport width -->
+        <div
+          class="rounded-lg border border-gray-200 bg-white px-4 py-6 sm:px-8 lg:px-16"
+        >
+          <!-- Heading: text-xl → sm:text-2xl → lg:text-4xl -->
+          <h3 class="text-xl font-bold sm:text-2xl lg:text-4xl">
+            Responsive heading
+          </h3>
+          <!-- Body: text-sm → sm:text-base → lg:text-lg -->
+          <p
+            class="mt-3 text-sm leading-relaxed text-gray-600 sm:text-base lg:text-lg"
+          >
+            Body copy scales from
+            <code class="code-chip">text-sm</code> to
+            <code class="code-chip">sm:text-base</code> at 640px and
+            <code class="code-chip">lg:text-lg</code> at 1024px. The container
+            padding grows from <code class="code-chip">px-4</code> to
+            <code class="code-chip">sm:px-8</code> to
+            <code class="code-chip">lg:px-16</code> at the same breakpoints.
+            Resize the window to observe both changes at once.
+          </p>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------------ -->
+      <!-- Section 5: Custom breakpoint -->
+      <!-- ------------------------------------------------------------------ -->
+      <section>
+        <h2 class="section-heading">Custom breakpoint</h2>
+        <p class="section-note">
+          Tailwind v4 generates a responsive prefix from any
+          <code class="code-chip">--breakpoint-*</code> variable declared in
+          <code class="code-chip">@theme</code>. The variable name becomes the
+          prefix name.
+        </p>
+
+        <div class="callout callout--indigo">
+          <p class="callout__heading">
+            How <code class="code-chip">--breakpoint-xs</code> was defined
+          </p>
+          <p class="callout__body">
+            In <code class="code-chip">input.css</code>:
+          </p>
+          <pre
+            class="callout__body mt-2 overflow-x-auto rounded bg-indigo-100 px-4 py-3 font-mono text-xs text-indigo-900"
+          >
+@theme {
+  --breakpoint-xs: 30rem; /* 480px */
+}</pre
+          >
+          <p class="callout__body mt-3">
+            This makes <code class="code-chip">xs:</code> a valid responsive
+            prefix everywhere that <code class="code-chip">sm:</code> is valid —
+            including <code class="code-chip">xs:grid-cols-2</code> in the grid
+            above. The built-in breakpoints (<code class="code-chip">sm</code>,
+            <code class="code-chip">md</code>,
+            <code class="code-chip">lg</code>,
+            <code class="code-chip">xl</code>,
+            <code class="code-chip">2xl</code>) follow the same convention: each
+            is a <code class="code-chip">--breakpoint-*</code> variable in
+            Tailwind's default theme.
+          </p>
+          <p class="callout__body mt-2">
+            Because <code class="code-chip">@theme</code> variables are emitted
+            as CSS custom properties on <code class="code-chip">:root</code>,
+            JavaScript can read
+            <code class="code-chip">--breakpoint-xs</code> (and any other
+            breakpoint) at runtime — demonstrated in section 6 below.
+          </p>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------------ -->
+      <!-- Section 6: Breakpoints in JavaScript -->
+      <!-- ------------------------------------------------------------------ -->
+      <section>
+        <h2 class="section-heading">Breakpoints in JavaScript</h2>
+        <p class="section-note">
+          Use <code class="code-chip">window.matchMedia</code> to react to
+          breakpoint changes in JavaScript. Both examples below track the same
+          <code class="code-chip">lg</code> threshold (1024px / 64rem); only the
+          source of truth differs.
+        </p>
+
+        <!-- Example A — Hardcoded value -->
+        <div class="mb-8">
+          <h3 class="mb-2 text-base font-semibold">
+            Example A — Hardcoded value
+          </h3>
+          <p class="mb-3 text-sm text-gray-600">
+            Pass a string directly to
+            <code class="code-chip">matchMedia</code>. Simple and readable, but
+            the breakpoint value is duplicated between CSS and JS — a future
+            change to the token requires editing both places.
+          </p>
+          <pre
+            class="mb-4 overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 px-5 py-4 font-mono text-xs text-gray-800"
+          >
+const mql = window.matchMedia('(min-width: 64rem)')
+
+mql.addEventListener('change', (e) => update(e.matches))
+update(mql.matches) // run once on page load</pre
+          >
+          <p class="text-sm text-gray-600">
+            Active at <code class="code-chip">lg</code> (1024px / 64rem):
+          </p>
+          <p class="mt-2">
+            <span id="bp-indicator-a" class="bp-indicator">checking…</span>
+          </p>
+        </div>
+
+        <!-- Example B — CSS custom property (v4-specific) -->
+        <div>
+          <h3 class="mb-2 text-base font-semibold">
+            Example B — CSS custom property (v4-specific)
+          </h3>
+          <p class="mb-3 text-sm text-gray-600">
+            Tailwind v4 emits every
+            <code class="code-chip">@theme</code> variable as a CSS custom
+            property on <code class="code-chip">:root</code>. Reading
+            <code class="code-chip">--breakpoint-lg</code> at runtime means the
+            breakpoint value lives in exactly one place — the
+            <code class="code-chip">@theme</code> block. Update the token and
+            both CSS and JS stay consistent automatically.
+          </p>
+          <pre
+            class="mb-4 overflow-x-auto rounded-lg border border-gray-200 bg-gray-50 px-5 py-4 font-mono text-xs text-gray-800"
+          >
+const bp = getComputedStyle(document.documentElement)
+             .getPropertyValue('--breakpoint-lg')
+             .trim()
+
+const mql = window.matchMedia(`(min-width: ${bp})`)
+
+mql.addEventListener('change', (e) => update(e.matches))
+update(mql.matches) // run once on page load</pre
+          >
+          <p class="text-sm text-gray-600">
+            Active at <code class="code-chip">lg</code> (value read from
+            <code class="code-chip">--breakpoint-lg</code>):
+          </p>
+          <p class="mt-2">
+            <span id="bp-indicator-b" class="bp-indicator">checking…</span>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      Tailwind v4 · CLI build · responsive breakpoints · run
+      <code>npm run build:breakpoints</code> to compile
+    </footer>
+
+    <script>
+      // -----------------------------------------------------------------------------
+      // SECTION: Breakpoint indicators
+      // PURPOSE: Live chips showing whether the lg breakpoint is currently active
+      // -----------------------------------------------------------------------------
+
+      // Example A — Hardcoded breakpoint value
+      const indicatorA = document.getElementById("bp-indicator-a");
+
+      function updateA(matches) {
+        indicatorA.textContent = matches
+          ? "lg+ active (≥ 1024px)"
+          : "below lg (< 1024px)";
+        indicatorA.classList.toggle("bp-indicator--active", matches);
+      }
+
+      const mqlA = window.matchMedia("(min-width: 64rem)");
+      mqlA.addEventListener("change", (e) => updateA(e.matches));
+      updateA(mqlA.matches);
+
+      // Example B — CSS custom property (single source of truth)
+      // Reads --breakpoint-lg that Tailwind v4 emits on :root from @theme.
+      const indicatorB = document.getElementById("bp-indicator-b");
+      const bpLg = getComputedStyle(document.documentElement)
+        .getPropertyValue("--breakpoint-lg")
+        .trim();
+
+      function updateB(matches) {
+        indicatorB.textContent = matches
+          ? `lg+ active (≥ ${bpLg})`
+          : `below lg (< ${bpLg})`;
+        indicatorB.classList.toggle("bp-indicator--active", matches);
+      }
+
+      const mqlB = window.matchMedia(`(min-width: ${bpLg})`);
+      mqlB.addEventListener("change", (e) => updateB(e.matches));
+      updateB(mqlB.matches);
+    </script>
+  </body>
+</html>
