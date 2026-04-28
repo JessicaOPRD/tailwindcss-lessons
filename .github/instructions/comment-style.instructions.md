@@ -41,7 +41,7 @@ applyTo: "**/*.{html,css,js,ts,vue}"
 ```
 
 **JS / TS / Vue `<script>`**
-```js
+```js ts vue
 // Inline comment
 
 /* Block comment for multi-line notes */
@@ -72,7 +72,7 @@ applyTo: "**/*.{html,css,js,ts,vue}"
 /* PURPOSE: Button variants, states, and shared behavior */
 ```
 
-```js
+```js ts
 // -----------------------------------------------------------------------------
 // SECTION: Components
 // PURPOSE: Structural and reusable UI pieces
@@ -165,3 +165,15 @@ Lesson files (any `index.html` or `input.css` under a numbered lesson folder) op
 - Label line — all-caps, no trailing punctuation.
 - `───` underline — a solid line of box-drawing characters running to roughly the same visual width as the label. Fixed length is fine; this is a human-readable banner.
 - Body — sentence case; explain *why*, not *what*.
+
+**HTML section divider** — used inside the `<body>` of lesson HTML files to separate top-level `<section>` elements. Placed immediately before each `<section>` tag:
+
+```html
+<!-- ----------------------------------------------------------------------- -->
+<!-- Section N: Section title -->
+<!-- ----------------------------------------------------------------------- -->
+
+- Three lines: banner → label → banner
+- Banner — a fixed, copyable string of dashes; use the same string every time
+- Label — `Section` title-case (not `SECTION:` — distinct from CSS/JS code-organization headers); sequential integer starting at 1; colon; space; title case title matching the `<h2>` inside the section
+- Minor structural landmarks (`<header>`, `<footer>`, `<main>`) use a plain single-line comment (`<!-- Header -->`) — not a divider

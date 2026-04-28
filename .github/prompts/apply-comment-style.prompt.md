@@ -1,9 +1,10 @@
 ---
 description: "Apply the project comment style guide to one or more files. Use when section headers, annotation tags, or lesson header comments need to be updated to match the current conventions."
 agent: "agent"
+argument-hint: "path/to/file (optional — omit to apply to all files)"
 ---
 
-Review and update all comments in the target files to comply with [comment-style.instructions.md](../instructions/comment-style.instructions.md).
+Review and update all comments in ${input:the target files} to comply with [comment-style.instructions.md](../instructions/comment-style.instructions.md).
 
 Apply changes in this order:
 
