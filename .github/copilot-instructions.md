@@ -64,3 +64,7 @@ Lessons progress through utilities, layers, and brand palette configuration.
 ## What Copilot should avoid
 
 <!-- TODO: List patterns to avoid (e.g., inline styles, !important, deprecated utilities) -->
+
+## Reference material
+
+- Always consult the official Tailwind v4 docs at https://tailwindcss.com/docs when planning lessons or writing examples.
