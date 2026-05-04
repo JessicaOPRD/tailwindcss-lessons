@@ -64,12 +64,12 @@ Put all theme and mode color tokens in `@layer base`, not in `@layer components`
 | Page layout | Use Tailwind utilities directly |
 | Spacing between local elements | Use Tailwind utilities directly |
 | Repeated button/card/form patterns | Create components |
-| Complex component internals (plain HTML) | BEM naming |
+| Complex component internals (plain HTML) | Full BEM naming in `@layer components` — `block__element--modifier` convention with `@apply` |
 | Complex component internals (Vue / React) | Scoped styles or CSS Modules; `__` and `--` notation useful in complex components; plain names fine in simple ones |
 | Highly reused variants | Use props, not copy/paste |
 | Global visual system | Define Tailwind tokens |
 | Deep child styling | Avoid; use slots/props/classes instead |
-| Scoped CSS | Optional, but not the foundation |
+| Scoped CSS (Vue / React) | Preferred — use flat class selectors and `var(--color-*)` tokens directly; apply `__` / `--` notation for complex components |
 
 **Use Tailwind for:** layout, spacing, responsive behavior, visual tokens, rapid composition.
 
